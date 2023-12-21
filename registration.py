@@ -18,23 +18,18 @@ class RegistrationForm:
 
         self.create_widgets()
 
-    # # Database
-    #     self.conn = sqlite3.connect("crud.db")
-    #     self.cursor = self.conn.cursor()
+  
+       
+        # self.cursor.execute('''UPDATE records SET username=?, password=?, Address=?, Phone_Number=?, Email_Address=?, Method_Of_Payment=?, Gender=? WHERE id=?''', 
+        #                     (username, password, Address, Phone_Number,Email_Address,Method_Of_Payment,Gender))
+        # self.conn.commit()
+        # messagebox.showinfo("Success", "Record updated successfully!")
 
-    #     # Create table if not exists
-    #     self.cursor.execute('''CREATE TABLE IF NOT EXISTS records
-    #                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-    #                          First_Name TEXT, Last_Name TEXT, Address TEXT, Phone_Number TEXT, Email_Address TEXT,Method_Of_Payment TEXT,Gender TEXT,)''')
-    #     self.conn.commit()
-    # def create_record(self):
-    #     name = self.first_name_entry.get()
-    #     age = self.first_name_entry.get()
-    #     address = self.address_entry.get()
+
 
     def create_widgets(self):
          # background image
-        self.bg_image = Image.open('bgimage.jpg')
+        self.bg_image = Image.open('image/bgimage.jpg')
         self.resized_bg_image= self.bg_image.resize((950,630))
         self.bg_image = ImageTk.PhotoImage(self.resized_bg_image)
         user_label = tk.Label(self.root, image=self.bg_image)
@@ -49,15 +44,15 @@ class RegistrationForm:
         head = tk.Label(self.root, text="User Registration for Taxi Services", font=("Verdana", 16),bg="white")
         head.place(x=484, y=60)
 
-        first_name = tk.Label(self.root, text="First Name",  font=("bold", 11),bg="white")
-        first_name.place(x=492, y=130)
-        self.first_name_entry = tk.Entry(self.root)
-        self.first_name_entry.place(x=605, y=130, height=30, width=260)
+        username = tk.Label(self.root, text="Username",  font=("bold", 11),bg="white")
+        username.place(x=492, y=130)
+        self.username_entry = tk.Entry(self.root)
+        self.username_entry.place(x=605, y=130, height=30, width=260)
 
-        last_name = tk.Label(self.root, text="Last Name",font=("bold", 11),bg="white")
-        last_name.place(x=488, y=180)
-        self.last_name_entry = tk.Entry(self.root)
-        self.last_name_entry.place(x=605, y=175, height=30, width=260)
+        password = tk.Label(self.root, text="Password",font=("bold", 11),bg="white")
+        password.place(x=488, y=180)
+        self.password_entry = tk.Entry(self.root)
+        self.password_entry.place(x=605, y=175, height=30, width=260)
 
         address = tk.Label(self.root, text="Address",  font=("bold", 10),bg="white")
         address.place(x=495, y=225)
@@ -91,40 +86,71 @@ class RegistrationForm:
         Radiobutton(self.root, text="Female", padx=20, variable=self.vars, value=2,bg="white").place(x=660, y=435)
         Radiobutton(self.root, text="Others", padx=20, variable=self.vars, value=3,bg="white").place(x=740, y=435)
 
-        # def pick_date(e):
-            
-        #     data_window = Toplevel()
 
        
         date_of_birth = tk.Label(self.root, text="Date of Birth", font=("bold", 10),bg="white")
         date_of_birth.place(x=482, y=475)
-        self.date_of_birth_entry = tk.Entry(self.root)
-        self.date_of_birth_entry.place(x=605, y=475, height=30, width=260)
-        # self.date_of_birth_entry.insert(0, "dd/mm/yy")
-        # cal = Calendar(root, selectmode = 'day',
-        #        year = 2020, month = 5,
-        #        day = 22)
- 
+        self.date_of_birth = DateEntry(root, width=12, year=2019, month=6, day=22, background='white', foreground='white', borderwidth=2)
+        self.date_of_birth.place(x=605, y=475, height=30, width=260)
+        # date_of_birth = DateEntry(root, width=12, year=2019, month=6, day=22, 
+        # background='darkblue', foreground='white', borderwidth=2)
+        # date_of_birth.place(x=605, y=475, height=30, width=260)
+      
 
 
         def sign_in():
             from log import TaxiBookingLogin
-            # self.root.destroy()
+            self.root.destroy()
             sign = tk.Tk()
             TaxiBookingLogin(sign)
 
+        # Database
+        self.conn = sqlite3.connect("crud1.db")
+        self.cursor = self.conn.cursor()
+
+        # Create table if not exists
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS customer
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            username TEXT, password TEXT, Address TEXT, Phone_Number TEXT, Email_Address TEXT,Method_Of_Payment TEXT,Gender TEXT)''')
+                            
+        self.conn.commit()
+        
+        def clear_entries():
+            self.username_entry.delete(0, tk.END)
+            self.entry_age.delete(0, tk.END)
+            self.entry_email.delete(0, ImageTk.END)
+        
+        def create_record():
+            username = self.username_entry.get()
+            password = self.password_entry.get()
+            Address = self.address_entry.get()
+            Phone_Number = self.phone_number_entry.get()
+            Email_Address =  self.email_address_entry.get()
+            Method_Of_Payment =  self.var.get()
+            Gender =  self.vars.get()
+
+            if username and password and Address and Phone_Number and Email_Address and Method_Of_Payment and Gender:
+                self.cursor.execute('''INSERT INTO customer (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ) VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                                    (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ))
+                self.conn.commit()
+                messagebox.showinfo("Success", "Record created successfully!")
+                # self.clear_entries()
+                sign_in()
+                self.read_records()
+            else:
+                messagebox.showerror("Error", "Please fill in all fields.")
         
 
-        button=tk.Button(self.root,text="Sign In",bg="#FFA500",font=("Verdana", 10))
+        button=tk.Button(self.root,text="Sign In", command=create_record,bg="#FFA500",font=("Verdana", 10))
         button.place(x=605,y=525,width=260,height=30) 
 
        
-
-        # if first_name and last_name and address and phone_number and email_address and method_of_payment and gender and date_of_birth:
-        #     messagebox.showinfo("Success","Record created successfully")
-        #     sign_in()
-        # else:
-        #     messagebox.showinfo("Error","Please fill in all fields.")
+        # def click():
+            # if username and password and address and phone_number and email_address and method_of_payment and gender and date_of_birth:
+            #     messagebox.showinfo("Success","Record created successfully")
+            #     sign_in()
+            # else:
+            #     messagebox.showinfo("Error","Please fill in all fields.")
 
         # lbl_4 = Label(self.root, text="Gender", width=20, font=("bold", 10))
         # lbl_4.place(x=70, y=230)
@@ -154,15 +180,8 @@ class RegistrationForm:
         # self.result_label = Label(self.root, text="", font=("bold", 12))
         # self.result_label.place(x=180, y=420)
 
-    # def submit(self):
-    #     full_name = self.enter_1.get()
-    #     email = self.enter_3.get()
-    #     gender = "Male" if self.vars.get() == 1 else "Female"
-    #     country = self.cv.get()
-    #     language_english = "English" if self.vars1.get() == 1 else ""
-    #     language_nepali = "Nepali" if self.vars2.get() == 1 else ""
 
-    #     self.result_label.config(text=f"Full Name: {full_name}\nEmail: {email}\nGender: {gender}\nCountry: {country}\nLanguages: {language_english} {language_nepali}")
+    
 
 if __name__ == "__main__":
     root = tk.Tk()

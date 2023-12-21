@@ -15,7 +15,7 @@ class TaxiBookingLogin:
         frame = tk.Frame(root, bg="white")
         frame.place(x=450, y=26, relwidth=0.46, relheight=0.90)
 
-        self.image_path = "logoo.png"  # Replace with the path to your photo
+        self.image_path = "image/logoo.png"  # Replace with the path to your photo
         self.original_image = Image.open(self.image_path)
 
         target_width = 90
