@@ -1,14 +1,20 @@
 import tkinter as tk
-from tkinter import Image, messagebox,OptionMenu, Radiobutton
+from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
 from PIL import Image, ImageTk
+from myProfile import MyProfile
+from history import History
+import time
 
 
-class MyProfile():
+class CustomerDashboard:
     def __init__(self, root):
         self.root = root
         self.root.geometry("950x630")
-        self.root.title('My Profile')
+        self.root.title('Cus Dashboard')
 
+        self.create_widgets()
+    
+    def create_widgets(self):
         frame1=tk.Frame(self.root,bg="#E8E4E4")
         frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
 
@@ -21,23 +27,45 @@ class MyProfile():
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
-        self.user_label = tk.Label(self.root, image=self.customer)
+        self.user_label = tk.Label(root, image=self.customer)
         self.user_label.place(x=58,y=80)
 
-        home = tk.Label(self.root, text="Home",  font=("Verdana", 14),bg="#E8E4E4")
-        home.place(x=60, y=260)
+    #Time
+        def update_time():
+            current_time = time.strftime('%H:%M:%S')
+            clock_label.config(text=current_time)
+            root.after(1000, update_time) 
 
-        my_profile = tk.Button(self.root, text="My Profile",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
-        my_profile.place(x=56, y=295)
+        clock_label = tk.Label(root, text="", font=("Helvetica", 14))
+        clock_label.place(x=75,y=230)
+        # Start updating the time
+        update_time()
 
-        history = tk.Label(self.root, text="History",  font=("Verdana", 14),bg="#E8E4E4")
-        history.place(x=60, y=340)
+        home = tk.Button(self.root, text="Home",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        home.place(x=56, y=280)
 
-        change_password = tk.Label(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4")
-        change_password.place(x=60, y=385)
+        def profile():
+            self.root.destroy()
+            pro=tk.Tk()
+            MyProfile(pro)
+
+        profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        profile_section.place(x=56, y=325)
+
+        #send to page history
+        def history():
+            self.root.destroy()
+            self.hist=tk.Tk()
+            History(self.hist)
+
+        history = tk.Button(self.root, text="History", command=history,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        history.place(x=56, y=360)
+
+        change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        change_password.place(x=56, y=400)
 
         Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
-        Logout.place(x=60, y=425)
+        Logout.place(x=56, y=435)
 
     #My Profile
         my_profile = tk.Label(self.root, text="My Profile", font=("Verdana", 12),bg="#E8E4E4")

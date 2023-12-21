@@ -90,14 +90,9 @@ class RegistrationForm:
        
         date_of_birth = tk.Label(self.root, text="Date of Birth", font=("bold", 10),bg="white")
         date_of_birth.place(x=482, y=475)
-        self.date_of_birth = DateEntry(root, width=12, year=2019, month=6, day=22, background='white', foreground='white', borderwidth=2)
+        self.date_of_birth = DateEntry(self.root, width=12, year=2019, month=6, day=22, background='gray', foreground='white', borderwidth=2)
         self.date_of_birth.place(x=605, y=475, height=30, width=260)
-        # date_of_birth = DateEntry(root, width=12, year=2019, month=6, day=22, 
-        # background='darkblue', foreground='white', borderwidth=2)
-        # date_of_birth.place(x=605, y=475, height=30, width=260)
-      
-
-
+       
         def sign_in():
             from log import TaxiBookingLogin
             self.root.destroy()
