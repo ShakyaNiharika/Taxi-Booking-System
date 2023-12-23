@@ -2,15 +2,15 @@ import tkinter as tk
 from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
 from PIL import Image, ImageTk
 from myProfile import MyProfile
-from history import History
 import time
 
 
-class CustomerDashboard:
+
+class History:
     def __init__(self, root):
         self.root = root
         self.root.geometry("950x630")
-        self.root.title('Cus Dashboard')
+        self.root.title('History')
 
         self.create_widgets()
     
@@ -27,7 +27,7 @@ class CustomerDashboard:
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
-        self.user_label = tk.Label(root, image=self.customer)
+        self.user_label = tk.Label(self.root, image=self.customer)
         self.user_label.place(x=58,y=80)
 
     #Time
@@ -52,13 +52,7 @@ class CustomerDashboard:
         profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         profile_section.place(x=56, y=325)
 
-        #send to page history
-        def history():
-            self.root.destroy()
-            self.hist=tk.Tk()
-            History(self.hist)
-
-        history = tk.Button(self.root, text="History", command=history,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        history = tk.Button(self.root, text="History",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         history.place(x=56, y=360)
 
         change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")

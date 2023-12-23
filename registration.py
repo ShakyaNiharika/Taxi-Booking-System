@@ -112,9 +112,15 @@ class RegistrationForm:
         
         def clear_entries():
             self.username_entry.delete(0, tk.END)
-            self.entry_age.delete(0, tk.END)
-            self.entry_email.delete(0, ImageTk.END)
-        
+            self.password_entry.delete(0, tk.END)
+            self.address_entry.delete(0, ImageTk.END)
+            self.phone_number_entry.delete(0,tk.END)
+            self.email_address_entry.delete(0,tk.END)
+            self.self.var.delete(0,tk.END)
+            self.self.vars.delete(0,tk.END)
+
+
+
         def create_record():
             username = self.username_entry.get()
             password = self.password_entry.get()
@@ -131,7 +137,6 @@ class RegistrationForm:
                 messagebox.showinfo("Success", "Record created successfully!")
                 # self.clear_entries()
                 sign_in()
-                self.read_records()
             else:
                 messagebox.showerror("Error", "Please fill in all fields.")
         

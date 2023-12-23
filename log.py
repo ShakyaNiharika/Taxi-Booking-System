@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import sqlite3
 from registration import RegistrationForm
+from custdashboard import CustomerDashboard
 
 class TaxiBookingLogin:
     def __init__(self, root):
@@ -75,7 +76,25 @@ class TaxiBookingLogin:
         self.password_entry=tk.Entry(self.root)
         self.password_entry.place(x=520,y=328,height=40, width=340)
 
-        button=tk.Button(self.root,text="Log in",command=self.login, bg="#FFA500",font=("Verdana", 10))
+        def login():
+            
+        #connect Database
+            username = self.username_entry.get()
+            password = self.password_entry.get()
+
+        
+            self.cursor.execute('''SELECT * FROM customer WHERE username=? AND password=? ''',(username,password))
+            result = self.cursor.fetchone()
+            if result:
+                messagebox.showinfo("Success", "Record created successfully!")
+                self.root.destroy()
+                self.customer_dash = tk.Tk()
+                CustomerDashboard(self.customer_dash)
+            else:
+                messagebox.showerror("Invalid password or username")
+            
+            
+        button=tk.Button(self.root,text="Log in",command=login, bg="#FFA500",font=("Verdana", 10))
         button.place(x=520,y=400,width=340,height=40) 
 
         # button=tk.Button(self.root,text="Sign in",bg="green")
@@ -109,17 +128,10 @@ class TaxiBookingLogin:
         #Database connection
         self.conn = sqlite3.connect("crud1.db")
         self.cursor = self.conn.cursor()
-    def login(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+    
 
         
-        self.cursor.execute('''SELECT * FROM customer WHERE username=? AND password=? ''',(username,password))
-        result = self.cursor.fetchone()
-        if result:
-            messagebox.showinfo("Success", "Record created successfully!")
-        else:
-            messagebox.showerror("Invalid password or username")
+        
 
 #     #   self.result_label.config(text=f"Username: {username}")
 

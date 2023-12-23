@@ -1,0 +1,212 @@
+import tkinter as tk
+from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
+from PIL import Image, ImageTk
+from myProfile import MyProfile
+from history import History
+from tkcalendar import*
+import sqlite3
+
+import time
+
+
+class CustomerDashboard:
+    def __init__(self, root):
+        self.root = root
+        self.root.geometry("950x630")
+        self.root.title('Cus Dashboard')
+
+        self.create_widgets()
+    
+    def create_widgets(self):
+        frame1=tk.Frame(self.root,bg="#E8E4E4")
+        frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
+
+        head = tk.Label(self.root, text="Welcome To Taxi Boking System", font=("Verdana", 18),bg="#E8E4E4")
+        head.place(x=20,y=20)
+
+        frame2=tk.Frame(self.root,bg="#E8E4E4")
+        frame2.place(x=0,y=72,relwidth=0.26, relheight=1)
+
+        self.customer = Image.open('image/yello.png')
+        self.resized_customer= self.customer.resize((120,130))
+        self.customer = ImageTk.PhotoImage(self.resized_customer)
+        self.user_label = tk.Label(self.root, image=self.customer)
+        self.user_label.place(x=58,y=80)
+
+    #Time
+        def update_time():
+            self.current_time = time.strftime('%H:%M:%S')
+            self.clock_label.config(text=self.current_time)
+            self.root.after(1000, update_time) 
+
+        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
+        self.clock_label.place(x=75,y=230)
+        # Start updating the time
+        update_time()
+
+        self.home = tk.Button(self.root, text="Home",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.home.place(x=56, y=280)
+
+        def profile():
+            self.root.destroy()
+            pro=tk.Tk()
+            MyProfile(pro)
+
+        self.profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.profile_section.place(x=56, y=325)
+
+        #send to page history
+        def history():
+            self.root.destroy()
+            self.hist=tk.Tk()
+            History(self.hist)
+
+        self.history = tk.Button(self.root, text="History", command=history,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.history.place(x=56, y=360)
+
+        self.change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.change_password.place(x=56, y=400)
+
+        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
+        self.Logout.place(x=56, y=435)
+
+#Create Database
+        self.conn = sqlite3.connect("crud2.db")
+        self.cursor = self.conn.cursor()
+
+        # Create table if not exists
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS customerDashboard
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            pickup_address TEXT, dropoff_address TEXT, pickup_date TEXT, pickup_time TEXT)''')
+                            
+        self.conn.commit()
+
+#main page
+        self.pickup_address = tk.Label(self.root, text="Pickup Address", font=("Verdana", 11),bg="#E8E4E4")
+        self.pickup_address.place(x=280,y=140)
+        self.pickup_address_entry = tk.Entry(self.root,width="50")
+        self.pickup_address_entry.place(x=410,y=140,height="30")
+
+        self.dropoff_address = tk.Label(self.root, text="dropoff Address", font=("Verdana", 11),bg="#E8E4E4")
+        self.dropoff_address.place(x=280,y=195)
+        self.dropoff_address_entry = tk.Entry(self.root,width="50")
+        self.dropoff_address_entry.place(x=410,y=190,height="30")
+
+        self.pickup_date = tk.Label(self.root, text="Picup Date", font=("Verdana", 11),bg="#E8E4E4")
+        self.pickup_date.place(x=280,y=240)
+        self.pickup_date_entry = DateEntry(self.root, width=12, year=2019, month=6, day=22, background='gray', foreground='white', borderwidth=2)
+        self.pickup_date_entry.place(x=410, y=240, height=30, width=300)
+        
+        self.pickup_time = tk.Label(self.root, text="Pickup Time", font=("Verdana", 11),bg="#E8E4E4")
+        self.pickup_time.place(x=280,y=300)
+        self.pickup_time_entry = tk.Entry(self.root,width="50")
+        self.pickup_time_entry.place(x=410,y=300,height="30")
+
+#Insert into Customerdashboard table
+        def request():
+            pickup_address=self.pickup_address_entry.get()
+            dropoff_address=self.dropoff_address_entry.get()
+            pickup_date=self.pickup_date_entry.get()
+            pickup_time=self.pickup_time_entry.get()
+
+            if pickup_address and dropoff_address and pickup_date and pickup_time:
+                self.cursor.execute('''INSERT INTO customerDashboard (pickup_address, dropoff_address, pickup_date, pickup_time) VALUES (?, ?, ?, ?)''',
+                                        (pickup_address, dropoff_address, pickup_date, pickup_time))
+                self.conn.commit()
+                messagebox.showinfo("Successfully! Booking has been requested")
+                # display_in_treeview(self,pickup_address,dropoff_address,pickup_date,pickup_time) #hereeee
+                read()
+                # clear_entries()
+            else:
+                messagebox.showerror("There is smothing problem with your entries")
+#To display in the treeview
+        # def display_in_treeview(self, pickup_address, dropoff_address, pickup_date, pickup_time):
+        #     data = (pickup_address, dropoff_address, pickup_date, pickup_time)
+        #     self.tree.insert("", "end", values=data, tags=("Driver_Name",))
+
+#To Update the customerDashboard
+        def update():
+            selected_item = self.tree.selection()
+
+            if not selected_item:
+                messagebox.showerror("Error", "Please select a record to update.")
+                return
+            selected_id=self.tree.item(selected_item, "values")[0]
+            pickup_address=self.pickup_address_entry.get()
+            dropoff_address=self.dropoff_address_entry.get()
+            pickup_date=self.pickup_date_entry.get()
+            pickup_time=self.pickup_time_entry.get()
+
+            self.cursor.execute('''Update customerDashboard SET pickup_address=?, dropoff_address=?, pickup_date=?,pickup_time=? WHERE id=?''',
+                                    (pickup_address, dropoff_address, pickup_date,pickup_time, selected_id))
+            self.conn.commit()
+            messagebox.showinfo("Success", "booking updated successfully!") #askkkkk
+            read()
+
+        def read():
+            self.tree.delete(*self.tree.get_children())
+
+            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM customerdashboard''')
+            records = self.cursor.fetchall()
+
+            if records:
+                for record in records:
+                    self.tree.insert("", "end", values=record)
+
+            else:
+                messagebox.showinfo("No Records", "No records found.")
+        
+#to Cancel the booking
+        def delete():
+            selected_item = self.tree.selection()
+            if not selected_item:
+                messagebox.showerror("error","Plese select one")
+            else:
+                 selected_id = self.tree.item(selected_item, "values")[0]
+                 self.cursor.execute('''DELETE FROM customerDashboard WHERE id=?''', (selected_id,))
+                 self.conn.commit()
+                 messagebox.showinfo("success","Your booking have been canceled successfully!")
+                 read()
+
+
+        def clear_entries(self):
+            self.pickup_address_entry.delete(0, tk.END)
+            self.dropoff_address_entry.delete(0, tk.END)
+            self.pickup_date_entry.delete(0, tk.END)
+            self.pickup_time_entry.delete(0, tk.END)
+
+
+#button for Request,Update and Cancel
+        self.cancel_booking= tk.Button(self.root, command=read, text="Read",font=("Verdana", 10),width=13,bg="#F1B547",)
+        self.cancel_booking.place(x=280, y=360)
+        self.request_booking= tk.Button(self.root, text="Request Booking",command=request , font=("Verdana", 10),bg="#F1B547",)
+        self.request_booking.place(x=400, y=360)
+        self.update_booking= tk.Button(self.root, text="Update Booking",command=update,font=("Verdana", 10),bg="#F1B547",)
+        self.update_booking.place(x=280, y=405)
+        self.cancel_booking= tk.Button(self.root, text="Cancel Booking",command=delete,font=("Verdana", 10),bg="#F1B547",)
+        self.cancel_booking.place(x=400, y=405)
+        
+
+ #treeview
+        self.tree = ttk.Treeview(self.root, columns=("S.N","Pickup Address", "dropoff Address", "Picup Date", "Pickup Time"), show="headings",height=10)
+        self.tree.heading("S.N", text="S.N")
+        self.tree.heading("Pickup Address", text="Pickup Address")
+        self.tree.heading("dropoff Address", text="dropoff Address")
+        self.tree.heading("Picup Date", text="Picup Date")
+        self.tree.heading("Pickup Time", text="Pickup Time")
+        
+        
+        self.tree.column("S.N", width=50)
+        self.tree.column("Pickup Address", width=90)  # Adjust the width as needed
+        self.tree.column("dropoff Address", width=94)
+        self.tree.column("Picup Date", width=80)
+        self.tree.column("Pickup Time", width=80)
+        self.tree.grid(row=4, columnspan=4, padx=530, pady=350)#here changed padx
+        self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CustomerDashboard(root)
+    root.mainloop()
