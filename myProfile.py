@@ -10,7 +10,18 @@ class MyProfile():
         self.root = root
         self.root.geometry("950x630")
         self.root.title('My Profile')
+        # try:
+        #     self.frame2=tk.Frame(self.root).place()
+        #     print('Yes')
+        # except:
+        #     print('asd error')
 
+    #middle frame which needs to be change
+        #
+            
+        self.create_widgets()
+    
+    def create_widgets(self):
         frame1=tk.Frame(self.root,bg="#E8E4E4")
         frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
 
@@ -20,47 +31,66 @@ class MyProfile():
         frame2=tk.Frame(self.root,bg="#E8E4E4")
         frame2.place(x=0,y=72,relwidth=0.26, relheight=1)
 
+        frame3=tk.Frame(self.root,bg="#F9943B")
+        frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
         self.user_label = tk.Label(self.root, image=self.customer)
         self.user_label.place(x=58,y=80)
+
+    
+
     #Time
         def update_time():
-            current_time = time.strftime('%H:%M:%S')
-            clock_label.config(text=current_time)
-            root.after(1000, update_time) 
+            self.current_time = time.strftime('%H:%M:%S')
+            self.clock_label.config(text=self.current_time)
+            self.root.after(1000, update_time) 
 
-        clock_label = tk.Label(root, text="", font=("Helvetica", 14))
-        clock_label.place(x=75,y=230)
+        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
+        self.clock_label.place(x=75,y=230)
+
         # Start updating the time
         update_time()
 
-        # def home():
-        #     self.root.destroy()
-        #     hom=tk.Tk()
-        #     CustomerDashboard(hom)
+        def dashboard():
+            self.root.destroy()
+            from custdashboard import CustomerDashboard
+            hom=tk.Tk()
+            CustomerDashboard(hom)
 
-        home = tk.Label(self.root, text="Home",font=("Verdana", 14),bg="#E8E4E4")
-        home.place(x=56, y=280)
+        self.dashboard = tk.Button(self.root, text="Dashboard", command=dashboard,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.dashboard.place(x=56, y=280)
 
-        my_profile = tk.Button(self.root, text="My Profile",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
-        my_profile.place(x=56, y=325)
+        def profile():
+            self.root.destroy()
+            from myProfile import MyProfile
+            pro=tk.Tk()
+            MyProfile(pro)
 
-        history = tk.Label(self.root, text="History",  font=("Verdana", 14),bg="#E8E4E4")
-        history.place(x=56, y=360)
+        self.profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.profile_section.place(x=56, y=325)
 
-        change_password = tk.Label(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4")
-        change_password.place(x=56, y=400)
+        #send to page history
+        def history():
+            from history import History
+            self.root.destroy()
+            self.hist=tk.Tk()
+            History(self.hist)
 
-        Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
-        Logout.place(x=56, y=435)
+        self.history = tk.Button(self.root, text="History", command=history,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.history.place(x=56, y=360)
+
+        self.change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.change_password.place(x=56, y=400)
+
+        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        self.Logout.place(x=56, y=590)
 
     #My Profile
         my_profile = tk.Label(self.root, text="My Profile", font=("Verdana", 12),bg="#E8E4E4")
         my_profile.place(x=280,y=100)
-       
-
         first_name = tk.Label(self.root, text="First Name",  font=("bold", 11))
         first_name.place(x=280, y=150)
         self.first_name_entry = tk.Entry(self.root)
@@ -95,7 +125,6 @@ class MyProfile():
         drop_down["menu"].config(bg="#FFA500")
         self.var.set('Select the methods for payment')
         drop_down.place(x=420, y=375,height=35 )
-
         gender = tk.Label(self.root, text="Gender", font=("bold", 11),)
         gender.place(x=280, y=425)
         self.vars = tk.IntVar()

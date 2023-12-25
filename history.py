@@ -24,6 +24,9 @@ class History:
         frame2=tk.Frame(self.root,bg="#E8E4E4")
         frame2.place(x=0,y=72,relwidth=0.26, relheight=1)
 
+        frame3=tk.Frame(self.root,bg="#F9943B")
+        frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
@@ -41,8 +44,8 @@ class History:
         # Start updating the time
         update_time()
 
-        home = tk.Button(self.root, text="Home",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        home.place(x=56, y=280)
+        dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        dashboard.place(x=56, y=280)
 
         def profile():
             self.root.destroy()
@@ -58,8 +61,8 @@ class History:
         change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         change_password.place(x=56, y=400)
 
-        Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
-        Logout.place(x=56, y=435)
+        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        self.Logout.place(x=56, y=590)
 
     #frame
         # frame3=tk.Frame(root,bg="#E8E4E4")

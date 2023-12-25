@@ -131,12 +131,22 @@ class RegistrationForm:
             Gender =  self.vars.get()
 
             if username and password and Address and Phone_Number and Email_Address and Method_Of_Payment and Gender:
-                self.cursor.execute('''INSERT INTO customer (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ) VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                                    (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ))
-                self.conn.commit()
-                messagebox.showinfo("Success", "Record created successfully!")
-                # self.clear_entries()
-                sign_in()
+                if len(password) >= 6:
+                    if len(password) >= 6:
+                        if "@" in Email_Address:
+                            self.cursor.execute('''INSERT INTO customer (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ) VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                                                (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ))
+                            self.conn.commit()
+                            messagebox.showinfo("Success", "Record created successfully!")
+                            # self.clear_entries()
+                            sign_in()
+                        else:
+                            messagebox.showerror("Error", "Please enter the valid email address")
+                    else:
+                        messagebox.showerror("Error", "Paaword needs to be atleast 10 digits")
+                else:
+                    messagebox.showerror("Error", "Paasword needs to be 6 digits atleast")
+    
             else:
                 messagebox.showerror("Error", "Please fill in all fields.")
         

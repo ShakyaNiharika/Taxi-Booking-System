@@ -11,7 +11,7 @@ class TaxiBookingLogin:
         self.root = root
         self.root.title("Taxi Booking Login")
        
-        self.username_var = tk.StringVar()
+        self.email_var = tk.StringVar()
         self.password_var = tk.StringVar()
 
         # background image
@@ -55,11 +55,11 @@ class TaxiBookingLogin:
         self.tittle = tk.Label(self.root,text="Login:",font=("Verdana", 15),bg="white")
         self.tittle.place(x=664,y=150)
 
-        self.username = tk.Label(self.root,text="Username:", font=90,bg="white")
-        self.username.place(x=520,y=210)
+        self.email = tk.Label(self.root,text="Email:", font=90,bg="white")
+        self.email.place(x=520,y=210)
 
-        self.username_entry=tk.Entry(self.root)
-        self.username_entry.place(x=520,y=240,height=40, width=340,)
+        self.email_entry=tk.Entry(self.root)
+        self.email_entry.place(x=520,y=240,height=40, width=340,)
 
         # self.user_image = Image.open('user.png')
         # self.resized_userimage= self.user_image.resize((50,70))
@@ -79,11 +79,11 @@ class TaxiBookingLogin:
         def login():
             
         #connect Database
-            username = self.username_entry.get()
+            email = self.email_entry.get()
             password = self.password_entry.get()
 
         
-            self.cursor.execute('''SELECT * FROM customer WHERE username=? AND password=? ''',(username,password))
+            self.cursor.execute('''SELECT * FROM customer WHERE email_address=? AND password=? ''',(email,password))
             result = self.cursor.fetchone()
             if result:
                 messagebox.showinfo("Success", "Record created successfully!")
@@ -91,7 +91,7 @@ class TaxiBookingLogin:
                 self.customer_dash = tk.Tk()
                 CustomerDashboard(self.customer_dash)
             else:
-                messagebox.showerror("Invalid password or username")
+                messagebox.showerror("Invalid password or email")
             
             
         button=tk.Button(self.root,text="Log in",command=login, bg="#FFA500",font=("Verdana", 10))

@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
 from PIL import Image, ImageTk
-from myProfile import MyProfile
 from history import History
 from tkcalendar import*
 import sqlite3
@@ -25,13 +24,19 @@ class CustomerDashboard:
         head.place(x=20,y=20)
 
         frame2=tk.Frame(self.root,bg="#E8E4E4")
-        frame2.place(x=0,y=72,relwidth=0.26, relheight=1)
+        frame2.place(x=0,y=75,relwidth=0.26, relheight=1)
+
+        frame3=tk.Frame(self.root,bg="#F1B547")
+        frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+        
 
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
         self.user_label = tk.Label(self.root, image=self.customer)
         self.user_label.place(x=58,y=80)
+
+    
 
     #Time
         def update_time():
@@ -44,11 +49,12 @@ class CustomerDashboard:
         # Start updating the time
         update_time()
 
-        self.home = tk.Button(self.root, text="Home",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.home.place(x=56, y=280)
+        self.dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.dashboard.place(x=56, y=280)
 
         def profile():
             self.root.destroy()
+            from myProfile import MyProfile
             pro=tk.Tk()
             MyProfile(pro)
 
@@ -62,16 +68,16 @@ class CustomerDashboard:
             History(self.hist)
 
         self.history = tk.Button(self.root, text="History", command=history,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.history.place(x=56, y=360)
+        self.history.place(x=56, y=365)
 
         self.change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.change_password.place(x=56, y=400)
+        self.change_password.place(x=56, y=405)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
-        self.Logout.place(x=56, y=435)
+        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F1B547")
+        self.Logout.place(x=56, y=590)
 
 #Create Database
-        self.conn = sqlite3.connect("crud2.db")
+        self.conn = sqlite3.connect("crud1.db")
         self.cursor = self.conn.cursor()
 
         # Create table if not exists
