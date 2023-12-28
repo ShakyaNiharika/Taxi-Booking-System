@@ -15,22 +15,22 @@ class History:
         self.create_widgets()
     
     def create_widgets(self):
-        frame1=tk.Frame(self.root,bg="#E8E4E4")
-        frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
+        self.frame1=tk.Frame(self.root,bg="#E8E4E4")
+        self.frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
 
-        head = tk.Label(self.root, text="Welcome To Taxi Boking System", font=("Verdana", 18),bg="#E8E4E4")
-        head.place(x=20,y=20)
+        self.head = tk.Label(self.root, text="Welcome To Taxi Boking System", font=("Verdana", 18),bg="#E8E4E4")
+        self.head.place(x=20,y=20)
 
-        frame2=tk.Frame(self.root,bg="#E8E4E4")
-        frame2.place(x=0,y=72,relwidth=0.26, relheight=1)
+        self.frame2=tk.Frame(self.root,bg="#E8E4E4")
+        self.frame2.place(x=0,y=72,relwidth=0.26, relheight=1)
 
-        frame3=tk.Frame(self.root,bg="#F9943B")
-        frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+        self.frame3=tk.Frame(self.root,bg="#F9943B")
+        self.frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
 
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
-        self.user_label = tk.Label(self.root, image=self.customer)
+        self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
 
     #Time
@@ -39,13 +39,27 @@ class History:
             clock_label.config(text=current_time)
             root.after(1000, update_time) 
 
-        clock_label = tk.Label(root, text="", font=("Helvetica", 14))
+        clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
         clock_label.place(x=75,y=230)
         # Start updating the time
         update_time()
 
+#dashboard image
+        self.dash = Image.open('image/dash.png')
+        self.dash= self.dash.resize((20,20))
+        self.dash = ImageTk.PhotoImage(self.dash)
+        self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
+        self.dash_label.place(x=30,y=285)
+
         dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         dashboard.place(x=56, y=280)
+
+#profile image
+        self.profile = Image.open('image/profile.png')
+        self.profile= self.profile.resize((20,20))
+        self.profile = ImageTk.PhotoImage(self.profile)
+        self.profile_label = tk.Label(self.root, image=self.profile,bg="#E8E4E4")
+        self.profile_label.place(x=30,y=330)
 
         def profile():
             self.root.destroy()
@@ -55,10 +69,32 @@ class History:
         profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         profile_section.place(x=56, y=325)
 
+
+
         history = tk.Button(self.root, text="History",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         history.place(x=56, y=360)
 
-        change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+#history image
+        self.his = Image.open('image/history.png')
+        self.his= self.his.resize((20,20))
+        self.his = ImageTk.PhotoImage(self.his)
+        self.his_label = tk.Label(self.root, image=self.his,bg="#E8E4E4")
+        self.his_label.place(x=30,y=370)
+
+#password image
+        self.sidelock = Image.open('image/sidelock.png')
+        self.sidelock= self.sidelock.resize((20,20))
+        self.sidelock = ImageTk.PhotoImage(self.sidelock)
+        self.sidelock_label = tk.Label(self.root, image=self.sidelock,bg="#E8E4E4")
+        self.sidelock_label.place(x=30,y=405)
+
+        def password():
+            self.root.destroy()
+            from changepassword import ChangePassword
+            passw=tk.Tk()
+            ChangePassword(passw)
+
+        change_password = tk.Button(self.root, text="Change Password",command=password,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         change_password.place(x=56, y=400)
 
         self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
@@ -71,7 +107,7 @@ class History:
         head = tk.Label(self.root, text="Your History", font=("Verdana", 18))
         head.place(x=320,y=110)
     #treeview
-        self.tree = ttk.Treeview(root, columns=("Driver Name", "Phone Number", "Email Address", "Pickup Address","Dropoff Address","Time","Date"), show="headings",height=15)
+        self.tree = ttk.Treeview(self.root, columns=("Driver Name", "Phone Number", "Email Address", "Pickup Address","Dropoff Address","Time","Date"), show="headings",height=15)
         self.tree.heading("Driver Name", text="Driver_Name")
         self.tree.heading("Phone Number", text="Phone Number")
         self.tree.heading("Email Address", text="Email Address")

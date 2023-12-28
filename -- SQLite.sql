@@ -1,0 +1,2 @@
+-- SQLite
+DROP DATABASE CRUD3;

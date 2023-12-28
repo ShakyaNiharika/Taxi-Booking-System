@@ -10,7 +10,7 @@ from tkcalendar import*
 
 import sqlite3
 
-class RegistrationForm:
+class DriverRegistration:
     def __init__(self, root):
         self.root = root
         self.root.geometry("950x630")
@@ -69,15 +69,10 @@ class RegistrationForm:
         self.email_address_entry = tk.Entry(self.root)
         self.email_address_entry.place(x=605, y=330, height=30, width=260)
 
-        method_of_payment = tk.Label(self.root, text="Method Of Payment", font=("bold", 8),bg="white")
-        method_of_payment.place(x=482, y=385)
-        method = ['Cash' , 'eSewa' ,'Mobile Banking']
-        self.var = tk.StringVar()
-        drop_down = OptionMenu(self.root, self.var, *method)
-        drop_down.config(width=36 , indicatoron=True,bg="white")
-        drop_down["menu"].config(bg="#FFA500")
-        self.var.set('Select the methods for payment')
-        drop_down.place(x=605, y=385,height=35 )
+        license_No = tk.Label(self.root, text="License No.", font=("bold", 10),bg="white")
+        license_No.place(x=486, y=388)
+        self.license_No_entry = tk.Entry(self.root)
+        self.license_No_entry.place(x=605, y=385, height=30, width=260)
 
         gender = tk.Label(self.root, text="Gender", font=("bold", 11),bg="white")
         gender.place(x=485, y=435)
@@ -87,7 +82,6 @@ class RegistrationForm:
         Radiobutton(self.root, text="Others", padx=20, variable=self.vars, value=3,bg="white").place(x=740, y=435)
 
 
-       
         date_of_birth = tk.Label(self.root, text="Date of Birth", font=("bold", 10),bg="white")
         date_of_birth.place(x=482, y=475)
         self.date_of_birth = DateEntry(self.root, width=12, year=2019, month=6, day=22, background='gray', foreground='white', borderwidth=2)
@@ -103,10 +97,10 @@ class RegistrationForm:
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
 
-        # Create table if not exists
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS customer
-                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            username TEXT, password TEXT, Address TEXT, Phone_Number TEXT, Email_Address TEXT,Method_Of_Payment TEXT,Gender TEXT)''')
+        #Create table if not exists
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS driverRegistration
+                            (driver_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            username TEXT, password TEXT, Address TEXT, Phone_Number TEXT, Email_Address TEXT,license_No TEXT,Gender TEXT)''')
                             
         self.conn.commit()
         
@@ -116,7 +110,7 @@ class RegistrationForm:
             self.address_entry.delete(0, ImageTk.END)
             self.phone_number_entry.delete(0,tk.END)
             self.email_address_entry.delete(0,tk.END)
-            self.self.var.delete(0,tk.END)
+            self.license_No_entry.delete(0,tk.END)
             self.self.vars.delete(0,tk.END)
 
 
@@ -127,23 +121,15 @@ class RegistrationForm:
             Address = self.address_entry.get()
             Phone_Number = self.phone_number_entry.get()
             Email_Address =  self.email_address_entry.get()
-            Method_Of_Payment =  self.var.get()
-            Gender =  str
-            if self.vars.get() ==1:
-                Gender = "Male"
-            
-            elif self.vars.get() ==2:
-                Gender = "Female"
+            license_No =  self.license_No_entry.get()
+            Gender =  self.vars.get()
 
-            else:
-                Gender = 'Others'
-
-            if username and password and Address and Phone_Number and Email_Address and Method_Of_Payment and Gender:
+            if username and password and Address and Phone_Number and Email_Address and license_No and Gender:
                 if len(password) >= 6:
                     if len(password) >= 6:
                         if "@" in Email_Address:
-                            self.cursor.execute('''INSERT INTO customer (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ) VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                                                (username, password, Address, Phone_Number, Email_Address, Method_Of_Payment, Gender ))
+                            self.cursor.execute('''INSERT INTO driverRegistration (username, password, Address, Phone_Number, Email_Address, license_No, Gender ) VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                                                (username, password, Address, Phone_Number, Email_Address, license_No, Gender ))
                             self.conn.commit()
                             messagebox.showinfo("Success", "Record created successfully!")
                             # self.clear_entries()
@@ -203,5 +189,5 @@ class RegistrationForm:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = RegistrationForm(root)
+    app = DriverRegistration(root)
     root.mainloop()

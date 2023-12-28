@@ -1,13 +1,12 @@
 import tkinter as tk
-from tkinter import Image, messagebox,OptionMenu, Radiobutton
+from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
 from PIL import Image, ImageTk
+from myProfile import MyProfile
 import time
-# from custdashboard import CustomerDashboard
-import globalvar
 import sqlite3
+import globalvar
 
-
-class MyProfile():
+class ChangePassword():
     def __init__(self, root):
         self.root = root
         self.root.geometry("950x630")
@@ -24,17 +23,6 @@ class MyProfile():
         self.create_widgets()
     
     def create_widgets(self):
-        #to set we need to do this
-        self.string = tk.StringVar()
-        self.string2 = tk.StringVar()
-        self.string3 = tk.StringVar()
-        self.string4 = tk.StringVar()
-        self.string5 = tk.StringVar()
-        self.string6 = tk.StringVar()
-
-
-
-
         self.frame1=tk.Frame(self.root,bg="#E8E4E4")
         self.frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
 
@@ -46,6 +34,12 @@ class MyProfile():
 
         self.frame3=tk.Frame(self.root,bg="#F9943B")
         self.frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+
+        self.top = Image.open('image/top.png')
+        self.top= self.top.resize((40,50))
+        self.top = ImageTk.PhotoImage(self.top)
+        self.top_label = tk.Label(self.root, image=self.top,bg="#E8E4E4")
+        self.top_label.place(x=670,y=10)
 
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
@@ -66,7 +60,6 @@ class MyProfile():
 
         # Start updating the time
         update_time()
-
 #dashboard image
         self.dash = Image.open('image/dash.png')
         self.dash= self.dash.resize((20,20))
@@ -122,7 +115,7 @@ class MyProfile():
         self.sidelock = ImageTk.PhotoImage(self.sidelock)
         self.sidelock_label = tk.Label(self.root, image=self.sidelock,bg="#E8E4E4")
         self.sidelock_label.place(x=30,y=405)
-
+        
         def password():
             self.root.destroy()
             from changepassword import ChangePassword
@@ -135,79 +128,64 @@ class MyProfile():
         self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
-    #My Profile
-        background_frame=tk.Frame(self.root,bg="#E8E4E4")
-        background_frame.place(x=300,y=162,relwidth=0.58, relheight=0.62)
-
-        my_profile = tk.Label(self.root, text="My Profile", font=("Verdana", 18),bg="#E8E4E4")
-        my_profile.place(x=310,y=100)
-
-        username = tk.Label(self.root, text="Username",  font=("bold", 11),bg="#E8E4E4")
-        username.place(x=320, y=180)
-        self.user_name_entry = tk.Entry(self.root,textvariable=self.string)
-        self.user_name_entry.place(x=460, y=180, height=30, width=260)
-        self.string.set(globalvar.customer[1])
-
-        address = tk.Label(self.root, text="Address",  font=("bold", 11),bg="#E8E4E4")
-        address.place(x=320, y=233)
-        self.address_entry = tk.Entry(self.root,textvariable=self.string2)
-        self.address_entry.place(x=460, y=233, height=30, width=260)
-        self.string2.set(globalvar.customer[3])
-
-        phone_number = tk.Label(self.root, text="Phone Number", font=("bold", 11),bg="#E8E4E4")
-        phone_number.place(x=320, y=285)
-        self.phone_number_entry = tk.Entry(self.root,textvariable=self.string3)
-                                           
-        self.phone_number_entry.place(x=460, y=285, height=30, width=260)
-        self.string3.set(globalvar.customer[4])
-
-        email_address = tk.Label(self.root, text="Email Address", font=("bold", 11),bg="#E8E4E4")
-        email_address.place(x=320, y=335)
-        self.email_address_entry = tk.Entry(self.root,textvariable=self.string4)
-        self.email_address_entry.place(x=460, y=335, height=30, width=260)
-        self.string4.set(globalvar.customer[5])
-
-        method_of_payment = tk.Label(self.root, text="Method Of Payment", font=("bold",11),bg="#E8E4E4")
-        method_of_payment.place(x=320, y=390)
-        method = ['Cash' , 'eSewa' ,'Mobile Banking']
-        self.var = tk.StringVar()
-        drop_down = OptionMenu(self.root, self.var, *method)
-        drop_down.config(width=36 , indicatoron=True,bg="white")
-
-        drop_down["menu"].config(bg="#FFA500")
-        self.var.set(globalvar.customer[6])
-        drop_down.place(x=460, y=390,height=35 )
-
-        gender = tk.Label(self.root, text="Gender", font=("bold", 11),)
-        gender.place(x=320, y=445)
-        self.vars = tk.StringVar()
-        self.vars.set(globalvar.customer[7])
-        Radiobutton(self.root, text="Male", padx=5, variable=self.vars, value="Male",bg="#E8E4E4",).place(x=460, y=445)
-        Radiobutton(self.root, text="Female", padx=20, variable=self.vars, value="Female",bg="#E8E4E4",).place(x=530, y=445)
-        Radiobutton(self.root, text="Others", padx=20, variable=self.vars, value="Others",bg="#E8E4E4",).place(x=620, y=445)
-        # self.string5.set(globalvar.customer[6])
-
+#Connect Database
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
 
-        def update():
-            username=self.user_name_entry.get()
-            address=self.address_entry.get()
-            phone_number=self.phone_number_entry.get()
-            email_address=self.email_address_entry.get()
-            method_of_payment=self.var.get()
-            gender=self.vars.get()
-            update_value=globalvar.customer[0]
+##main page (CHANGE PASSWORD)***
+        background_frame=tk.Frame(self.root,bg="#E8E4E4")
+        background_frame.place(x=300,y=172,relwidth=0.62, relheight=0.52)
 
-            self.cursor.execute('''Update customer SET username=?, address=?, phone_number=?,email_address=?,method_of_payment=?,gender=? WHERE id=?''',
-                                    (username, address, phone_number,email_address,method_of_payment,gender, update_value))
-            self.conn.commit()
-            messagebox.showinfo("Success", "updated successfully!")
+        self.tittle = tk.Label(self.root,text="Change Password:",font=("Verdana", 15),bg="white")
+        self.tittle.place(x=360,y=120)
 
-        self.update= tk.Button(self.root, text="Update",font=("Verdana", 10),command=update,bg="#F1B547",width="30",)
-        self.update.place(x=460, y=495)
+        self.old_password = tk.Label(self.root,text="Old Password:", font=90,bg="#E8E4E4")
+        self.old_password.place(x=350,y=220)
+        self.old_password_entry=tk.Entry(self.root)
+        self.old_password_entry.place(x=350,y=250,height=30, width=280,)
+
+        self.new_password = tk.Label(self.root,text="New Password:", font=90,bg="#E8E4E4")
+        self.new_password.place(x=350,y=310)
+        self.new_password_entry=tk.Entry(self.root)
+        self.new_password_entry.place(x=350,y=340,height=30, width=280,)
+
+        #QUERY for updating the password
+        def change():
+            check=globalvar.customer[2]
+            print (check)
+            password=self.old_password_entry.get()
+
+            self.cursor.execute('''SELECT password FROM customer WHERE password=?''',(password,))
+            result = self.cursor.fetchone() 
+            # print(result)
+            new_password=self.new_password_entry.get()
+            if result and result[2] == check:
+                self.cursor.execute('''Update customer SET password=? WHERE id=?''',
+                                    (new_password, check))
+                self.conn.commit()
+                messagebox.showinfo("Success", "booking updated successfully!")
+                 
+            else:
+                messagebox.showerror("Error", "your old password does not match!")
+                 
+            
+        
+
+
+        self.change= tk.Button(self.root, text="Change Password",command=change,font=("Verdana", 10),borderwidth=0,bg="white")
+        self.change.place(x=380, y=400)
+
+        self.lock = Image.open('image/lock.png')
+        self.lock= self.lock.resize((120,130))
+        self.lock = ImageTk.PhotoImage(self.lock)
+        self.user_label = tk.Label(self.root, image=self.lock,bg="#E8E4E4")
+        self.user_label.place(x=690,y=250)
+
+        # def change():
+        #     if not selected_id
+        #         messagebox.showerror("")
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = MyProfile(root)
+    app = ChangePassword(root)
     root.mainloop()

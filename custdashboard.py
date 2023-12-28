@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from history import History
 from tkcalendar import*
 import sqlite3
+import globalvar
 
 import time
 
@@ -17,23 +18,23 @@ class CustomerDashboard:
         self.create_widgets()
     
     def create_widgets(self):
-        frame1=tk.Frame(self.root,bg="#E8E4E4")
-        frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
+        self.frame1=tk.Frame(self.root,bg="#E8E4E4")
+        self.frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
 
-        head = tk.Label(self.root, text="Welcome To Taxi Boking System", font=("Verdana", 18),bg="#E8E4E4")
-        head.place(x=20,y=20)
+        self.head = tk.Label(self.root, text="Welcome To Taxi Boking System", font=("Verdana", 18),bg="#E8E4E4")
+        self.head.place(x=20,y=20)
 
-        frame2=tk.Frame(self.root,bg="#E8E4E4")
-        frame2.place(x=0,y=75,relwidth=0.26, relheight=1)
+        self.frame2=tk.Frame(self.root,bg="#E8E4E4")
+        self.frame2.place(x=0,y=75,relwidth=0.26, relheight=1)
 
-        frame3=tk.Frame(self.root,bg="#F1B547")
-        frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+        self.frame3=tk.Frame(self.root,bg="#F1B547")
+        self.frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
         
-
+    #image
         self.customer = Image.open('image/yello.png')
         self.resized_customer= self.customer.resize((120,130))
         self.customer = ImageTk.PhotoImage(self.resized_customer)
-        self.user_label = tk.Label(self.root, image=self.customer)
+        self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
 
     
@@ -49,8 +50,31 @@ class CustomerDashboard:
         # Start updating the time
         update_time()
 
+    #dashboard image
+        self.dash = Image.open('image/dash.png')
+        self.dash= self.dash.resize((20,20))
+        self.dash = ImageTk.PhotoImage(self.dash)
+        self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
+        self.dash_label.place(x=30,y=285)
+
+        self.welcome = tk.Label(text="Hello",font=("Verdana", 14),bg="#E8E4E4")
+        self.welcome.place(x=730,y=30)
+        self.name = tk.Label(text="",font=("Verdana", 14),bg="#E8E4E4")
+        self.name.place(x=800,y=30)
+        self.name.config(text=globalvar.customer[1])
+
+        #this is customer id where is came from login or global variable 
+        self_id =globalvar.customer[0]
+
         self.dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.dashboard.place(x=56, y=280)
+
+#profile image
+        self.profile = Image.open('image/profile.png')
+        self.profile= self.profile.resize((20,20))
+        self.profile = ImageTk.PhotoImage(self.profile)
+        self.profile_label = tk.Label(self.root, image=self.profile,bg="#E8E4E4")
+        self.profile_label.place(x=30,y=330)
 
         def profile():
             self.root.destroy()
@@ -61,29 +85,49 @@ class CustomerDashboard:
         self.profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.profile_section.place(x=56, y=325)
 
+#history image
+        self.his = Image.open('image/history.png')
+        self.his= self.his.resize((20,20))
+        self.his = ImageTk.PhotoImage(self.his)
+        self.his_label = tk.Label(self.root, image=self.his,bg="#E8E4E4")
+        self.his_label.place(x=30,y=370)
+
         #send to page history
-        def history():
+        def history(self):
             self.root.destroy()
-            self.hist=tk.Tk()
-            History(self.hist)
+            hist=tk.Tk()
+            History(hist)
 
         self.history = tk.Button(self.root, text="History", command=history,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.history.place(x=56, y=365)
 
-        self.change_password = tk.Button(self.root, text="Change Password",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+#password image
+        self.sidelock = Image.open('image/sidelock.png')
+        self.sidelock= self.sidelock.resize((20,20))
+        self.sidelock = ImageTk.PhotoImage(self.sidelock)
+        self.sidelock_label = tk.Label(self.root, image=self.sidelock,bg="#E8E4E4")
+        self.sidelock_label.place(x=30,y=410)
+
+        def password():
+            self.root.destroy()
+            from changepassword import ChangePassword
+            passw=tk.Tk()
+            ChangePassword(passw)
+
+        self.change_password = tk.Button(self.root, text="Change Password",command=password,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.change_password.place(x=56, y=405)
 
         self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F1B547")
         self.Logout.place(x=56, y=590)
 
 #Create Database
-        self.conn = sqlite3.connect("crud1.db")
+        self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
 
         # Create table if not exists
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS customerDashboard
                             (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            pickup_address TEXT, dropoff_address TEXT, pickup_date TEXT, pickup_time TEXT)''')
+                            pickup_address TEXT , dropoff_address TEXT, pickup_date TEXT, pickup_time TEXT,customer_id INTERGER,FOREIGN KEY(customer_id) REFERENCES customer(id))''')
                             
         self.conn.commit()
 
@@ -116,8 +160,8 @@ class CustomerDashboard:
             pickup_time=self.pickup_time_entry.get()
 
             if pickup_address and dropoff_address and pickup_date and pickup_time:
-                self.cursor.execute('''INSERT INTO customerDashboard (pickup_address, dropoff_address, pickup_date, pickup_time) VALUES (?, ?, ?, ?)''',
-                                        (pickup_address, dropoff_address, pickup_date, pickup_time))
+                self.cursor.execute('''INSERT INTO customerDashboard (pickup_address, dropoff_address, pickup_date, pickup_time,customer_id) VALUES (?, ?, ?, ?,?)''',
+                                        (pickup_address, dropoff_address, pickup_date, pickup_time,self_id))
                 self.conn.commit()
                 messagebox.showinfo("Successfully! Booking has been requested")
                 # display_in_treeview(self,pickup_address,dropoff_address,pickup_date,pickup_time) #hereeee
@@ -152,7 +196,7 @@ class CustomerDashboard:
         def read():
             self.tree.delete(*self.tree.get_children())
 
-            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM customerdashboard''')
+            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM customerdashboard where customer_id = ?''',str(self_id))
             records = self.cursor.fetchall()
 
             if records:
@@ -209,6 +253,33 @@ class CustomerDashboard:
         self.tree.column("Pickup Time", width=80)
         self.tree.grid(row=4, columnspan=4, padx=530, pady=350)#here changed padx
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+#thisssss
+    #     self.cus_fetch()
+
+    # def cus_fetch(self):
+    #     self.conn = sqlite3.connect("crud5.db")
+    #     self.cursor = self.conn.cursor()
+        
+    #     self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM customerdashboard where customer_id = ?''')
+    #     records = self.cursor.fetchall()
+
+    #     if len(records)!= 0:
+                
+    #             for i in records:
+    #                 self.tree.insert("", "end", values=i)
+    #                 self.conn.commit()
+
+    # def get(self,events = ""):
+    #     rows = self.root.focus()
+    #     content = self.root.item(rows)
+    #     records = content["values"]
+    #     self.root.set(rows[1])
+
+    
+
+
+
+
 
 
 

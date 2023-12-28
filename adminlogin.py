@@ -4,13 +4,15 @@ from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import sqlite3
 from registration import RegistrationForm
-import globalvar
 from custdashboard import CustomerDashboard
 
-class TaxiBookingLogin:
+class AdminLogin:
     def __init__(self, root):
         self.root = root
         self.root.title("Taxi Booking Login")
+       
+        self.email_var = tk.StringVar()
+        self.password_var = tk.StringVar()
 
         # background image
         self.bg_image = Image.open('image/bgimage.jpg')
@@ -85,57 +87,51 @@ class TaxiBookingLogin:
         check_button = tk.Checkbutton(self.root,text="show password", command=show_password,bg="white")
         check_button.place(x=745,y=370)
 
-        # self.show_password_var = tk.BooleanVar()
-        # self.show_password_var.set(False)
-        # def toggle_password_visibility():
-        #     if self.show_password_var.get():
-        #         # Show the password
-        #         self.password_entry.config(show="")
+         # Database
+        self.conn = sqlite3.connect("crud5.db")
+        self.cursor = self.conn.cursor()
+
+        # Create table if not exists
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS admin
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                             Email_Address TEXT,password TEXT)''')
+                            
+        self.conn.commit()
+
+        def admin_login():
+            from admindash import AdminDashboard
+            self.root.destroy()
+            view = tk.Tk()
+            AdminDashboard(view)
+
+        password=self.password_entry.get()
+        email=self.email_entry.get()
+        self.cursor.execute('''INSERT INTO admin ( password, Email_Address ) VALUES (?, ?)''',
+                                                ( password,email ))
+        self.conn.commit()
+        
+
+        # def login():
+            
+        # #connect Database
+            # email = self.email_entry.get()
+            # password = self.password_entry.get()
+
+        
+        #     self.cursor.execute('''SELECT * FROM customer WHERE email_address=? AND password=? ''',(email,password))
+        #     result = self.cursor.fetchone()
+        #     if result:
+        #         messagebox.showinfo("Success", "Record created successfully!")
+                # self.root.destroy()
+                # from admindash import AdminDashboard
+                # self.admin_dash = tk.Tk()
+                # CustomerDashboard(self.admin_dash)
         #     else:
-        #         # Hide the password
-        #         self.password_entry.config(show="*")
-
-        # self.show_password_checkbox = tk.Checkbutton(self.root, text="Show Password", variable=self.show_password_var, command=toggle_password_visibility)
-        # self.show_password_checkbox.place(x=20, y=90)
-
-        
-
-    
-
-        def login():
-            
-        
-        #Create Database
-            self.conn = sqlite3.connect("crud5.db")
-            self.cursor = self.conn.cursor()
-
-            email = self.email_entry.get()
-            password = self.password_entry.get()
-            
-        #connect Database
-            self.cursor.execute('''SELECT * FROM customer WHERE email_address=? AND password=? ''',(email,password))
-            result = self.cursor.fetchone()
-
-            if result:
-                globalvar.customer = result
-                print(globalvar.customer)
-                messagebox.showinfo("Success", "Record created successfully!")
-                self.root.destroy()
-                self.customer_dash = tk.Tk()
-                CustomerDashboard(self.customer_dash)
-            else:
-                messagebox.showerror("Invalid password or email")
+        #         messagebox.showerror("Invalid password or email")
             
             
-        button=tk.Button(self.root,text="Log in customer",command=login, bg="#FFA500",font=("Verdana", 10))
+        button=tk.Button(self.root,text="Log in as admin", command=admin_login,bg="#FFA500",font=("Verdana", 10))
         button.place(x=520,y=400,width=340,height=40) 
-
-#BUTTON FOR ADMIN AND DRIVER
-        # button=tk.Button(self.root,text="Log in as driver", bg="white",font=("Verdana", 10),borderwidth=0)
-        # button.place(x=560,y=450,width=120,height=30)
-
-        # button=tk.Button(self.root,text="Log in as admin", bg="white",font=("Verdana", 10),borderwidth=0)
-        # button.place(x=700,y=450,width=120,height=30)
 
         self.forget_password_entry = tk.Label(self.root,text="Forgot Password ?",font=("Verdana", 13),bg="white") 
         self.forget_password_entry.place(x=616,y=460)
@@ -155,44 +151,15 @@ class TaxiBookingLogin:
         button = tk.Button(frame2, text="Create Account",command=createAccount, font=("Verdana", 10),fg="#FFA500",bg="white",borderwidth=0)
         button.pack(expand=True, fill="both")
 
-        #button for admin and driver
-
-        def driver():
-            self.root.destroy()
-            from driverlogin import Driverlogin
-            driverlog=tk.Tk()
-            Driverlogin(driverlog)
-
-        button=tk.Button(self.root,text="Log in as driver",command=driver, bg="white",font=("Verdana", 10),borderwidth=1)
-        button.place(x=560,y=540,width=120,height=30)
-
-        def admin():
-            self.root.destroy()
-            from adminlogin import AdminLogin
-            adminlog=tk.Tk()
-            AdminLogin(adminlog)
-
-        button=tk.Button(self.root,text="Log in as admin",command=admin, bg="white",font=("Verdana", 10),borderwidth=1)
-        button.place(x=700,y=540,width=120,height=30)
 
         frame2.config(bg=root.cget("bg"))
 
         self.root.geometry("950x630")
 
-#         # self.result_label = tk.Entry(self.root, text="", font=("bold", 12))
-#         # self.result_label.place(x=180, y=420)
-        
-        #Database connection
-        self.conn = sqlite3.connect("crud1.db")
-        self.cursor = self.conn.cursor()
+
     
-
-        
-        
-
-#     #   self.result_label.config(text=f"Username: {username}")
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = TaxiBookingLogin(root)
+    app = AdminLogin(root)
     root.mainloop()
