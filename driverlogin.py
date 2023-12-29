@@ -3,7 +3,6 @@ from tkinter import Image, messagebox,OptionMenu
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import sqlite3
-from registration import RegistrationForm
 from custdashboard import CustomerDashboard
 
 class Driverlogin:
@@ -124,9 +123,10 @@ class Driverlogin:
 
 
         def createAccount():
+            from driverregistration import DriverRegistration
             self.root.destroy()
             here = tk.Tk()
-            RegistrationForm(here)
+            DriverRegistration(here)
        
         button = tk.Button(frame2, text="Create Account",command=createAccount, font=("Verdana", 10),fg="#FFA500",bg="white",borderwidth=0)
         button.pack(expand=True, fill="both")
