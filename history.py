@@ -3,6 +3,7 @@ from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
 from PIL import Image, ImageTk
 from myProfile import MyProfile
 import time
+import sqlite3
 
 
 
@@ -129,6 +130,34 @@ class History:
         self.tree.column("Date", width=60)
         self.tree.grid(row=7, columnspan=4, padx=320, pady=150)
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+
+        #Joining the two tables
+        #Database connection
+        self.conn = sqlite3.connect("crud5.db")
+        self.cursor = self.conn.cursor()
+        self.cursor.execute('''SELECT 
+                    driverRegistration.username,
+                    driverRegistration.Phone_Number,
+                    driverRegistration.Email_Address,
+                    customerDashboard.pickup_address,
+                    customerDashboard.dropoff_address,
+                    customerDashboard.pickup_date,
+                    customerDashboard.pickup_time
+                FROM 
+                    customerDashboard
+                JOIN 
+                    driverRegistration
+                ON 
+                    driverRegistration.driver_id = customerDashboard.driverid''')
+        records = self.cursor.fetchall()
+
+        if records:
+            for record in records:
+                self.tree.insert("", "end", values=record)
+
+        else:
+                messagebox.showinfo("No Records", "No records found.")
+
         
 
 
