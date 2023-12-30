@@ -87,16 +87,25 @@ class AdminLogin:
         check_button = tk.Checkbutton(self.root,text="show password", command=show_password,bg="white")
         check_button.place(x=745,y=370)
 
+        # #for login
+        # password=self.password_entry.get()
+        # email=self.email_entry.get()
+        # if password == "admin1234" and email == "admin@gmail.com":
+        #     messagebox.showinfo("Success", "login successfully!")
+        # else:
+        #     messagebox.showerror("Error", "Invalid password or email!")
+
+
          # Database
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
 
-        # Create table if not exists
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS admin
-                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                             Email_Address TEXT,password TEXT)''')
+        # # Create table if not exists
+        # self.cursor.execute('''CREATE TABLE IF NOT EXISTS admin
+        #                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        #                      Email_Address TEXT,password TEXT)''')
                             
-        self.conn.commit()
+        # self.conn.commit()
 
         def admin_login():
             from admindash import AdminDashboard
@@ -104,10 +113,10 @@ class AdminLogin:
             view = tk.Tk()
             AdminDashboard(view)
 
-        password=self.password_entry.get()
-        email=self.email_entry.get()
+        # password=self.password_entry.get()
+        # email=self.email_entry.get()
         self.cursor.execute('''INSERT INTO admin ( password, Email_Address ) VALUES (?, ?)''',
-                                                ( password,email ))
+                                                ( 'admin@gmail.com', 'admin12345' ))
         self.conn.commit()
         
 

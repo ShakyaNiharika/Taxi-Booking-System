@@ -35,12 +35,13 @@ class History:
 
     #Time
         def update_time():
-            current_time = time.strftime('%H:%M:%S')
-            clock_label.config(text=current_time)
-            root.after(1000, update_time) 
+            self.current_time = time.strftime('%H:%M:%S')
+            self.clock_label.config(text=self.current_time)
+            self.root.after(1000, update_time) 
 
-        clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
-        clock_label.place(x=75,y=230)
+        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
+        self.clock_label.place(x=75,y=230)
+
         # Start updating the time
         update_time()
 
@@ -69,8 +70,6 @@ class History:
         profile_section = tk.Button(self.root, text="My Profile",command=profile,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         profile_section.place(x=56, y=325)
 
-
-
         history = tk.Button(self.root, text="History",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         history.place(x=56, y=360)
 
@@ -97,7 +96,13 @@ class History:
         change_password = tk.Button(self.root, text="Change Password",command=password,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         change_password.place(x=56, y=400)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        def logout():
+            self.root.destroy()
+            from log import TaxiBookingLogin
+            log_out=tk.Tk()
+            TaxiBookingLogin(log_out)
+
+        self.Logout= tk.Button(self.root, text="Logout",command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
     #frame

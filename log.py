@@ -118,7 +118,6 @@ class TaxiBookingLogin:
 
             if result:
                 globalvar.customer = result
-                print(globalvar.customer)
                 messagebox.showinfo("Success", "Record created successfully!")
                 self.root.destroy()
                 self.customer_dash = tk.Tk()

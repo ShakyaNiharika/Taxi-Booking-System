@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import Image, messagebox,OptionMenu, Radiobutton,ttk
 from PIL import Image, ImageTk
-from history import History
 from tkcalendar import*
 import sqlite3
 import globalvar
@@ -36,6 +35,8 @@ class CustomerDashboard:
         self.customer = ImageTk.PhotoImage(self.resized_customer)
         self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
+        self.booking_id = tk.Entry()
+        print(self.booking_id)
 
     
 
@@ -93,8 +94,9 @@ class CustomerDashboard:
         self.his_label.place(x=30,y=370)
 
         #send to page history
-        def history(self):
+        def history():
             self.root.destroy()
+            from history import History
             hist=tk.Tk()
             History(hist)
 
@@ -117,7 +119,13 @@ class CustomerDashboard:
         self.change_password = tk.Button(self.root, text="Change Password",command=password,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.change_password.place(x=56, y=405)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F1B547")
+        def logout():
+            self.root.destroy()
+            from log import TaxiBookingLogin
+            log_out=tk.Tk()
+            TaxiBookingLogin(log_out)
+
+        self.Logout= tk.Button(self.root, text="Logout",command=logout , font=("Verdana", 14),borderwidth=0,bg="#F1B547")
         self.Logout.place(x=56, y=590)
 
 #Create Database
@@ -158,10 +166,11 @@ class CustomerDashboard:
             dropoff_address=self.dropoff_address_entry.get()
             pickup_date=self.pickup_date_entry.get()
             pickup_time=self.pickup_time_entry.get()
+            status = 'pending'
 
             if pickup_address and dropoff_address and pickup_date and pickup_time:
-                self.cursor.execute('''INSERT INTO customerDashboard (pickup_address, dropoff_address, pickup_date, pickup_time,customer_id) VALUES (?, ?, ?, ?,?)''',
-                                        (pickup_address, dropoff_address, pickup_date, pickup_time,self_id))
+                self.cursor.execute('''INSERT INTO customerDashboard (pickup_address, dropoff_address, pickup_date, pickup_time,customer_id,booking_status) VALUES (?, ?, ?, ?,?,?)''',
+                                        (pickup_address, dropoff_address, pickup_date, pickup_time,self_id,status))
                 self.conn.commit()
                 messagebox.showinfo("Successfully! Booking has been requested")
                 # display_in_treeview(self,pickup_address,dropoff_address,pickup_date,pickup_time) #hereeee
@@ -225,7 +234,27 @@ class CustomerDashboard:
             self.pickup_date_entry.delete(0, tk.END)
             self.pickup_time_entry.delete(0, tk.END)
 
+        def selectedRow(event):
+            selected_item = self.tree.focus()
+            values = self.tree.item(selected_item, "values")
 
+            if values:
+                
+                self.booking_id.insert(0, values[0])
+
+                self.pickup_address_entry .delete(0, "end")
+                self.pickup_address_entry .insert(0, values[1])
+
+                self.dropoff_address_entry.delete(0, "end")
+                self.dropoff_address_entry.insert(0, values[2])
+
+                self.pickup_date_entry.delete(0, "end")
+                self.pickup_date_entry.insert(0, values[3])
+
+                self.pickup_time_entry.delete(0, "end")
+                self.pickup_time_entry.insert(0, values[4])
+
+                
 #button for Request,Update and Cancel
         self.cancel_booking= tk.Button(self.root, command=read, text="Read",font=("Verdana", 10),width=13,bg="#F1B547",)
         self.cancel_booking.place(x=280, y=360)
@@ -251,8 +280,15 @@ class CustomerDashboard:
         self.tree.column("dropoff Address", width=94)
         self.tree.column("Picup Date", width=80)
         self.tree.column("Pickup Time", width=80)
+
+        #For selected item
+        self.tree.bind("<<TreeviewSelect>>",selectedRow)
+
         self.tree.grid(row=4, columnspan=4, padx=530, pady=350)#here changed padx
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+
+        
+
 #thisssss
     #     self.cus_fetch()
 

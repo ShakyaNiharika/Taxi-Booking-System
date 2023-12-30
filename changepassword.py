@@ -125,7 +125,13 @@ class ChangePassword():
         self.change_password = tk.Button(self.root, text="Change Password",command=password,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.change_password.place(x=56, y=400)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        def logout():
+            self.root.destroy()
+            from log import TaxiBookingLogin
+            log_out=tk.Tk()
+            TaxiBookingLogin(log_out)
+
+        self.Logout= tk.Button(self.root, text="Logout",command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
 #Connect Database
@@ -152,19 +158,19 @@ class ChangePassword():
         #QUERY for updating the password
         def change():
             check=globalvar.customer[2]
-            print (check)
+            customer_id = globalvar.customer[0]
+           
             password=self.old_password_entry.get()
 
             self.cursor.execute('''SELECT password FROM customer WHERE password=?''',(password,))
             result = self.cursor.fetchone() 
-            # print(result)
+            
             new_password=self.new_password_entry.get()
-            if result and result[2] == check:
+            if result[0] == check:
                 self.cursor.execute('''Update customer SET password=? WHERE id=?''',
-                                    (new_password, check))
+                                    (new_password,customer_id ))
                 self.conn.commit()
                 messagebox.showinfo("Success", "booking updated successfully!")
-                 
             else:
                 messagebox.showerror("Error", "your old password does not match!")
                  

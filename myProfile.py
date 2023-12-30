@@ -131,8 +131,14 @@ class MyProfile():
 
         self.change_password = tk.Button(self.root, text="Change Password",command=password,  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.change_password.place(x=56, y=400)
+        
+        def logout():
+            self.root.destroy()
+            from log import TaxiBookingLogin
+            log_out=tk.Tk()
+            TaxiBookingLogin(log_out)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        self.Logout= tk.Button(self.root, text="Logout",command=logout,font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
     #My Profile

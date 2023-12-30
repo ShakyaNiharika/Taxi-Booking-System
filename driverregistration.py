@@ -122,7 +122,15 @@ class DriverRegistration:
             Phone_Number = self.phone_number_entry.get()
             Email_Address =  self.email_address_entry.get()
             license_No =  self.license_No_entry.get()
-            Gender =  self.vars.get()
+            Gender =  str
+            if self.vars.get() ==1:
+                Gender = "Male"
+            
+            elif self.vars.get() ==2:
+                Gender = "Female"
+
+            else:
+                Gender = 'Others'
 
             if username and password and Address and Phone_Number and Email_Address and license_No and Gender:
                 if len(password) >= 6:

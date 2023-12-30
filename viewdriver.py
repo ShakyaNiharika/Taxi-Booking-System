@@ -55,7 +55,13 @@ class ViewDriver:
         payment = tk.Label(self.root, text="Payment",  font=("Verdana", 14),bg="#E8E4E4")
         payment.place(x=60, y=385)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        def logout():
+            self.root.destroy()
+            from adminlogin import AdminLogin
+            logout=tk.Tk()
+            AdminLogin(logout)
+
+        self.Logout= tk.Button(self.root, text="Logout", command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
     #main View profile

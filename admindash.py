@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from tkcalendar import *
 import sqlite3
 import time
+import globalvar
 
 
 class AdminDashboard:
@@ -57,12 +58,17 @@ class AdminDashboard:
         payment = tk.Label(self.root, text="Payment",  font=("Verdana", 14),bg="#E8E4E4")
         payment.place(x=60, y=385)
 
-        self.Logout= tk.Button(self.root, text="Logout",  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
+        def logout():
+            self.root.destroy()
+            from adminlogin import AdminLogin
+            out=tk.Tk()
+            AdminLogin(out)
+
+        self.Logout= tk.Button(self.root, text="Logout",command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
-    # #Create Database
-    #     self.conn = sqlite3.connect("crud3.db")
-    #     self.cursor = self.conn.cursor()
+    #Create Database
+        
 
     # # Create table if not exists
     #     self.cursor.execute('''CREATE TABLE IF NOT EXISTS adminDashboard
@@ -73,31 +79,79 @@ class AdminDashboard:
 
 
 #main page
-        
+        def selectedRow(event):
+            selected_item = self.tree.focus()
+            values = self.tree.item(selected_item, "values")
+
+            if values:
+                
+                self.Booking_id_entry.insert(0, values[0])
+
+                self.customer_name_entry.delete(0, "end")
+                self.customer_name_entry.insert(0, values[1])
+
+                self.Booking_status_entry.delete(0, "end")
+                self.Booking_status_entry.insert(0, values[2])
+
+                # self.Assign_driver_entry.delete(0, "end")
+                # self.Assign_driver_entry.insert(0, values[3])
+
 
         #treeview
-        self.tree = ttk.Treeview(self.root, columns=("S.N","Customer Name","Pickup Address", "dropoff Address", "Pickup Date", "Pickup Time","Booking Status","Assign Driver"), show="headings",height=10)
+        self.tree = ttk.Treeview(self.root, columns=("S.N","Customer Name","Payment Method","Pickup Address", "dropoff Address", "Pickup Date", "Pickup Time","Booking Status"), show="headings",height=10)
         self.tree.heading("S.N", text="S.N")
         self.tree.heading("Customer Name", text="Customer Name")
+        self.tree.heading("Payment Method", text="Payment Method")
+
         self.tree.heading("Pickup Address", text="Pickup Address")
         self.tree.heading("dropoff Address", text="dropoff Address")
         self.tree.heading("Pickup Date", text="Pickup Date")
         self.tree.heading("Pickup Time", text="Pickup Time")
         self.tree.heading("Booking Status", text="Booking Status")
-        self.tree.heading("Assign Driver", text="Assign Driver")
-        
         
         
         self.tree.column("S.N", width=30)
         self.tree.column("Customer Name", width=92)
+        self.tree.column("Payment Method", width=92)
         self.tree.column("Pickup Address", width=90)  # Adjust the width as needed
         self.tree.column("dropoff Address", width=94)
         self.tree.column("Pickup Date", width=76)
         self.tree.column("Pickup Time", width=76)
         self.tree.column("Booking Status", width=88)
-        self.tree.column("Assign Driver", width=80)
         self.tree.grid(row=8, columnspan=8, padx=285, pady=110)#here changed padx
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+
+        #For selected item
+        self.tree.bind("<<TreeviewSelect>>",selectedRow)
+
+        self.conn = sqlite3.connect("crud5.db")
+        self.cursor = self.conn.cursor()
+
+        self.tree.delete(*self.tree.get_children())
+
+        self.cursor.execute('''SELECT 
+                    customerDashboard.id,
+                    customer.username,
+                    customer.Method_Of_Payment,
+                    customerDashboard.pickup_address,
+                    customerDashboard.dropoff_address,
+                    customerDashboard.pickup_date,
+                    customerDashboard.pickup_time,
+                    customerDashboard.booking_status
+                FROM 
+                    customer
+                JOIN 
+                    customerDashboard
+                ON 
+                    customer.id = customerDashboard.customer_id''')
+        records = self.cursor.fetchall()
+
+        if records:
+            for record in records:
+                self.tree.insert("", "end", values=record)
+
+        else:
+                messagebox.showinfo("No Records", "No records found.")
 
         #Entry fields
 
@@ -106,41 +160,31 @@ class AdminDashboard:
         self.customer_name_entry = tk.Entry(self.root,width="35")
         self.customer_name_entry.place(x=410,y=375,height="30")
         
-        self.pickup_date = tk.Label(self.root, text="Picup Date", font=("Verdana", 11),bg="#E8E4E4")
-        self.pickup_date.place(x=640,y=375)
-        self.pickup_date_entry = DateEntry(self.root, width=12, year=2019, month=6, day=22, background='gray', foreground='white', borderwidth=2)
-        self.pickup_date_entry.place(x=740,y=375,height="30",width="150")
+        self.Booking_id = tk.Label(self.root, text="Booking ID", font=("Verdana", 11),bg="#E8E4E4")
+        self.Booking_id.place(x=640,y=375)
+        self.Booking_id_entry = tk.Entry(self.root,width="35")
+        self.Booking_id_entry.place(x=740,y=375,height="30",width="150")
 
-        self.pickup_address = tk.Label(self.root, text="Pickup Address", font=("Verdana", 11),bg="#E8E4E4")
-        self.pickup_address.place(x=280,y=420)
-        self.pickup_address_entry = tk.Entry(self.root,width="35")
-        self.pickup_address_entry.place(x=410,y=420,height="30")
+        self.Booking_status = tk.Label(self.root, text="Booking Status", font=("Verdana", 11),bg="#E8E4E4")
+        self.Booking_status.place(x=280,y=440)
+        self.Booking_status_entry = tk.Entry(self.root,width="35")
+        self.Booking_status_entry.place(x=410,y=440,height="30")
 
-        self.pickup_time = tk.Label(self.root, text="Pickup Time", font=("Verdana", 11),bg="#E8E4E4")
-        self.pickup_time.place(x=640,y=420)
-        self.pickup_time_entry = tk.Entry(self.root,width="25")
-        self.pickup_time_entry.place(x=740,y=420,height="30")
-
-        self.dropoff_address = tk.Label(self.root, text="dropoff Address", font=("Verdana", 11),bg="#E8E4E4")
-        self.dropoff_address.place(x=280,y=470)
-        self.dropoff_address_entry = tk.Entry(self.root,width="35")
-        self.dropoff_address_entry.place(x=410,y=470,height="30")
-
-        self.booking_status = tk.Label(self.root, text="Booking Status", font=("Verdana", 11),bg="#E8E4E4")
-        self.booking_status.place(x=640,y=470)
-        self.booking_status_entry = tk.Entry(self.root,width="25")
-        self.booking_status_entry.place(x=758,y=470,height="30")
-
-        self.booking_status = tk.Label(self.root, text="Assign Driver", font=("Verdana", 11),bg="#E8E4E4")
-        self.booking_status.place(x=280,y=520)
-        self.booking_status_entry = tk.Entry(self.root,width="35")
-        self.booking_status_entry.place(x=410,y=520,height="30")
+        self.Assign_driver = tk.Label(self.root, text="Assign Driver", font=("Verdana", 11),bg="#E8E4E4")
+        self.Assign_driver.place(x=640,y=440)
+        method = ['Raju' , 'Ram' ,'Hari']
+        self.var = tk.StringVar()
+        drop_down = OptionMenu(self.root, self.var, *method)
+        drop_down.config(width=18 , indicatoron=True,bg="white")
+        drop_down["menu"].config(bg="#FFA500")
+        self.var.set('Assign the driver')
+        drop_down.place(x=740,y=440,height="30")
 
     #BUTTONS
         self.cancel_booking= tk.Button(self.root,  text="Assign Driver",font=("Verdana", 10),width=13,bg="#F1B547",)
-        self.cancel_booking.place(x=380, y=570)
+        self.cancel_booking.place(x=450, y=530)
         self.cancel_booking= tk.Button(self.root, text="Cancel Booking", font=("Verdana", 10),bg="#F1B547",)
-        self.cancel_booking.place(x=510, y=570)
+        self.cancel_booking.place(x=580, y=530)
 
 if __name__ == "__main__":
     root = tk.Tk()
