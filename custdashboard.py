@@ -28,6 +28,7 @@ class CustomerDashboard:
 
         self.frame3=tk.Frame(self.root,bg="#F1B547")
         self.frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
+
         
     #image
         self.customer = Image.open('image/yello.png')
@@ -58,10 +59,13 @@ class CustomerDashboard:
         self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
         self.dash_label.place(x=30,y=285)
 
-        self.welcome = tk.Label(text="Hello",font=("Verdana", 14),bg="#E8E4E4")
-        self.welcome.place(x=730,y=30)
-        self.name = tk.Label(text="",font=("Verdana", 14),bg="#E8E4E4")
-        self.name.place(x=800,y=30)
+        self.top = Image.open('image/man.png')
+        self.top= self.top.resize((60,50))
+        self.top = ImageTk.PhotoImage(self.top)
+        self.top_label = tk.Label(self.root, image=self.top,bg="#E8E4E4")
+        self.top_label.place(x=700,y=10)
+        self.name = tk.Label(text="",font=("Verdana", 16),bg="#E8E4E4")
+        self.name.place(x=780,y=25)
         self.name.config(text=globalvar.customer[1])
 
         #this is customer id where is came from login or global variable 

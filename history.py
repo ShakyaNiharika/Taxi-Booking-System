@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from myProfile import MyProfile
 import time
 import sqlite3
+import globalvar
 
 
 
@@ -53,8 +54,23 @@ class History:
         self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
         self.dash_label.place(x=30,y=285)
 
-        dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        def dashboard():
+            self.root.destroy()
+            from custdashboard import CustomerDashboard
+            hom=tk.Tk()
+            CustomerDashboard(hom)
+
+        dashboard = tk.Button(self.root, text="Dashboard", command=dashboard, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         dashboard.place(x=56, y=280)
+
+        self.top = Image.open('image/man.png')
+        self.top= self.top.resize((60,50))
+        self.top = ImageTk.PhotoImage(self.top)
+        self.top_label = tk.Label(self.root, image=self.top,bg="#E8E4E4")
+        self.top_label.place(x=700,y=10)
+        self.name = tk.Label(text="",font=("Verdana", 16),bg="#E8E4E4")
+        self.name.place(x=780,y=25)
+        self.name.config(text=globalvar.customer[1])
 
 #profile image
         self.profile = Image.open('image/profile.png')
@@ -121,6 +137,7 @@ class History:
         self.tree.heading("Dropoff Address", text="Dropoff Address")
         self.tree.heading("Time", text="Time")
         self.tree.heading("Date", text="Date")
+        
         self.tree.column("Driver Name", width=80)  
         self.tree.column("Phone Number", width=90)
         self.tree.column("Email Address", width=90)
