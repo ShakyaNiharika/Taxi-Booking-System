@@ -29,6 +29,15 @@ class CustomerDashboard:
         self.frame3=tk.Frame(self.root,bg="#F1B547")
         self.frame3.place(x=0,y=590,relwidth=0.26, relheight=0.35)
 
+        self.top = Image.open('image/man.png')
+        self.top= self.top.resize((60,50))
+        self.top = ImageTk.PhotoImage(self.top)
+        self.top_label = tk.Label(self.root, image=self.top,bg="#E8E4E4")
+        self.top_label.place(x=700,y=10)
+        self.name = tk.Label(text="",font=("Verdana", 16),bg="#E8E4E4")
+        self.name.place(x=780,y=25)
+        self.name.config(text=globalvar.customer[1])
+
         
     #image
         self.customer = Image.open('image/yello.png')
@@ -38,8 +47,6 @@ class CustomerDashboard:
         self.user_label.place(x=58,y=80)
         self.booking_id = tk.Entry()
         print(self.booking_id)
-
-    
 
     #Time
         def update_time():
@@ -58,15 +65,6 @@ class CustomerDashboard:
         self.dash = ImageTk.PhotoImage(self.dash)
         self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
         self.dash_label.place(x=30,y=285)
-
-        self.top = Image.open('image/man.png')
-        self.top= self.top.resize((60,50))
-        self.top = ImageTk.PhotoImage(self.top)
-        self.top_label = tk.Label(self.root, image=self.top,bg="#E8E4E4")
-        self.top_label.place(x=700,y=10)
-        self.name = tk.Label(text="",font=("Verdana", 16),bg="#E8E4E4")
-        self.name.place(x=780,y=25)
-        self.name.config(text=globalvar.customer[1])
 
         #this is customer id where is came from login or global variable 
         self_id =globalvar.customer[0]
@@ -260,7 +258,7 @@ class CustomerDashboard:
 
                 
 #button for Request,Update and Cancel
-        self.cancel_booking= tk.Button(self.root, command=read, text="Read",font=("Verdana", 10),width=13,bg="#F1B547",)
+        self.cancel_booking= tk.Button(self.root, command=read, text="view Booking",font=("Verdana", 10),width=13,bg="#F1B547",)
         self.cancel_booking.place(x=280, y=360)
         self.request_booking= tk.Button(self.root, text="Request Booking",command=request , font=("Verdana", 10),bg="#F1B547",)
         self.request_booking.place(x=400, y=360)

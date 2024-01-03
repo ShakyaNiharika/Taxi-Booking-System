@@ -86,10 +86,23 @@ class ViewDriver:
         self.tree.column("S.N", width=65)
         self.tree.column("Driver Name", width=110)
         self.tree.column("Phone Number", width=98)
-        self.tree.column("Email Address", width=96)
+        self.tree.column("Email Address", width=125)
         self.tree.column("License No", width=145)
         self.tree.grid(row=7, columnspan=7, padx=345, pady=190)#here changed padx
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+
+        self.conn = sqlite3.connect("crud5.db")
+        self.cursor = self.conn.cursor()
+        self.cursor.execute('''SELECT driver_id,username,Phone_Number,Email_Address,license_No FROM driverRegistration''')
+        records = self.cursor.fetchall()
+
+        if records:
+            for record in records:
+                print(record)
+                self.tree.insert("", "end", values=record)
+
+        else:
+            messagebox.showinfo("No Records", "No records found.")
         
 
 if __name__ == "__main__":

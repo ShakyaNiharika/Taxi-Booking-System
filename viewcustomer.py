@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from tkcalendar import *
 import sqlite3
 import time
+import globalvar
 
 
 class ViewCustomer:
@@ -13,6 +14,7 @@ class ViewCustomer:
         self.root.title('Registration form')
 
         self.create_widgets()
+        
     def create_widgets(self):
         frame1=tk.Frame(self.root,bg="#E8E4E4")
         frame1.place(x=0,y=0,relwidth=1, relheight=0.12)
@@ -31,6 +33,8 @@ class ViewCustomer:
         self.customer = ImageTk.PhotoImage(self.resized_customer)
         self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
+
+        # view_customer=globalvar.customer[0]
 
         def assigndriver():
             from admindash import AdminDashboard
@@ -78,13 +82,12 @@ class ViewCustomer:
         background_frame.place(x=275,y=162,relwidth=0.68, relheight=0.62)
 
     #treeview
-        self.tree = ttk.Treeview(self.root, columns=("S.N","Customer Name","Address", "Phone Number", "Email Address", "Password","Method Of Payment"), show="headings",height=15)
+        self.tree = ttk.Treeview(self.root, columns=("S.N","Customer Name","Address", "Phone Number", "Email Address","Method Of Payment"), show="headings",height=15)
         self.tree.heading("S.N", text="S.N")
         self.tree.heading("Customer Name", text="Customer Name")
         self.tree.heading("Address", text="Address")
         self.tree.heading("Phone Number", text="Phone Number")
         self.tree.heading("Email Address", text="Email Address")
-        self.tree.heading("Password", text="Password")
         self.tree.heading("Method Of Payment", text="Method Of Payment")
         
         self.tree.column("S.N", width=30)
@@ -92,10 +95,22 @@ class ViewCustomer:
         self.tree.column("Address", width=80)  # Adjust the width as needed
         self.tree.column("Phone Number", width=94)
         self.tree.column("Email Address", width=76)
-        self.tree.column("Password", width=76)
         self.tree.column("Method Of Payment", width=125)
         self.tree.grid(row=7, columnspan=7, padx=305, pady=186)#here changed padx
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
+
+        self.conn = sqlite3.connect("crud5.db")
+        self.cursor = self.conn.cursor()
+        self.cursor.execute('''SELECT id,username,address,Phone_Number,Email_Address,Method_Of_Payment FROM customer''')
+        records = self.cursor.fetchall()
+
+        if records:
+            for record in records:
+                print(record)
+                self.tree.insert("", "end", values=record)
+
+        else:
+            messagebox.showinfo("No Records", "No records found.")
         
 
         # customer_data = []

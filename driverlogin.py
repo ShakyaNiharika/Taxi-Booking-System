@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import sqlite3
 from custdashboard import CustomerDashboard
+import globalvar
+
 
 class Driverlogin:
     def __init__(self, root):
@@ -89,9 +91,7 @@ class Driverlogin:
 
  #Database
         def login():
-            
-       
-        
+           
             self.conn = sqlite3.connect("crud5.db")
             self.cursor = self.conn.cursor()
             email = self.email_entry.get()
@@ -100,11 +100,14 @@ class Driverlogin:
         
             self.cursor.execute('''SELECT * FROM driverRegistration WHERE email_address=? AND password=? ''',(email,password))
             result = self.cursor.fetchone()
+            
             if result:
+                globalvar.driver=result
                 messagebox.showinfo("Success", "Record created successfully!")
-                # self.root.destroy()
-                # self.customer_dash = tk.Tk()
-                # CustomerDashboard(self.customer_dash)
+                self.root.destroy()
+                from driverdash import DriverDashboard
+                self.customer_dash = tk.Tk()
+                DriverDashboard(self.customer_dash)
             else:
                 messagebox.showerror("Invalid password or email")
             

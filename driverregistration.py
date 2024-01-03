@@ -122,6 +122,7 @@ class DriverRegistration:
             Phone_Number = self.phone_number_entry.get()
             Email_Address =  self.email_address_entry.get()
             license_No =  self.license_No_entry.get()
+            status="Inactive"
             Gender =  str
             if self.vars.get() ==1:
                 Gender = "Male"
@@ -131,13 +132,13 @@ class DriverRegistration:
 
             else:
                 Gender = 'Others'
-
+          
             if username and password and Address and Phone_Number and Email_Address and license_No and Gender:
                 if len(password) >= 6:
                     if len(password) >= 6:
                         if "@" in Email_Address:
-                            self.cursor.execute('''INSERT INTO driverRegistration (username, password, Address, Phone_Number, Email_Address, license_No, Gender ) VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                                                (username, password, Address, Phone_Number, Email_Address, license_No, Gender ))
+                            self.cursor.execute('''INSERT INTO driverRegistration (username, password, Address, Phone_Number, Email_Address, license_No, Gender ,status) VALUES (?, ?, ?, ?,?, ?, ?, ?)''',
+                                                (username, password, Address, Phone_Number, Email_Address, license_No, Gender,status ))
                             self.conn.commit()
                             messagebox.showinfo("Success", "Record created successfully!")
                             # self.clear_entries()
