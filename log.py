@@ -134,7 +134,6 @@ class TaxiBookingLogin:
             else:
                 messagebox.showerror("Invalid password or email")
             
-            
         button=tk.Button(self.root,text="Log in customer",command=login, bg="#FFA500",font=("Verdana", 10))
         button.place(x=520,y=400,width=340,height=40) 
 

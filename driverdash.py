@@ -66,6 +66,21 @@ class DriverDashboard:
         self.dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.dashboard.place(x=56, y=280)
 
+        self.his = Image.open('image/history.png')
+        self.his= self.his.resize((20,20))
+        self.his = ImageTk.PhotoImage(self.his)
+        self.his_label = tk.Label(self.root, image=self.his,bg="#E8E4E4")
+        self.his_label.place(x=30,y=335)
+
+        def history():
+            self.root.destroy()
+            from driverhistory import DriverHistory
+            his=tk.Tk()
+            DriverHistory(his)
+
+        self.history = tk.Button(self.root, text="History",command=history, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.history.place(x=56, y=325)
+
         def logout():
             self.root.destroy()
             from driverlogin import Driverlogin

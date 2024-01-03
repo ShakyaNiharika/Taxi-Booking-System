@@ -153,12 +153,12 @@ class AdminDashboard:
         else:
                 messagebox.showinfo("No Records", "No records found.")
 
-        def assign():
+        # def assign():
              
-             selected_driver = self.var.get()
-             self.cursor.execute(f'''Update customerDashboard set booking_status="Booked" where id={self.Booking_id_entry.get()}''')
-             self.conn.commit()
-             messagebox.showinfo("Success", "Assigned successfully!")
+        #      selected_driver = self.var.get()
+        #      self.cursor.execute(f'''Update customerDashboard set booking_status="Booked" where id={self.Booking_id_entry.get()}''')
+        #      self.conn.commit()
+        #      messagebox.showinfo("Success", "Assigned successfully!")
 
         #Entry fields
 
@@ -179,19 +179,28 @@ class AdminDashboard:
 
         self.Assign_driver = tk.Label(self.root, text="Assign Driver", font=("Verdana", 11),bg="#E8E4E4")
         self.Assign_driver.place(x=640,y=440)
-        method = self.selectingdDriver()  # Populate the method list with data from the database
+        method = self.selectingdDriver()
+        # print(method)
+        value = []
+        for i in method:
+            value1 = i[0]
+            value.append(value1)
+
+            print(value)
         self.var = tk.StringVar()
-        drop_down = OptionMenu(self.root, self.var, *method)
-        drop_down.config(width=18, indicatoron=True, bg="white")
-        drop_down["menu"].config(bg="#FFA500")
+
+        self.drop_down = OptionMenu(self.root, self.var,*value)
+
+        self.drop_down.config(width=18, indicatoron=True, bg="white")
+        self.drop_down["menu"].config(bg="#FFA500")
         self.var.set('Assign the driver')
-        drop_down.place(x=740,y=440,height="30")
+        self.drop_down.place(x=740,y=440,height="30")
         self.selectingdDriver()
 
         def assign():
              booking_id=self.Booking_id_entry.get()
              selected_driver = self.var.get()
-             self.cursor.execute(f'''Update customerDashboard SET booking_status="Booked" where id={booking_id}''')
+             self.cursor.execute(f"Update customerDashboard SET booking_status='Booked',driverid ='{selected_driver}' where id='{booking_id}' ")
              self.conn.commit()
              messagebox.showinfo("Success", "Assigned successfully!")
             
@@ -223,15 +232,23 @@ class AdminDashboard:
             
         self.cancel_booking= tk.Button(self.root, text="Cancel Booking", font=("Verdana", 10),bg="#F1B547",)
         self.cancel_booking.place(x=580, y=530)
+        
 
         
 
-
-    def selectingdDriver(self):
-        self.cursor.execute('''SELECT username FROM driverRegistration WHERE status="Inactive"''')
+    def selectingID(self):
+        self.cursor.execute('''SELECT driver_id FROM driverRegistration WHERE status="Inactive"''')
         result = self.cursor.fetchall()
-        usernames = [row[0] for row in result]
-        print(usernames)
+        id=result
+        # print(id[0][0])
+        self.conn.commit()
+        return id
+        
+    def selectingdDriver(self):
+        self.cursor.execute('''SELECT driver_id , username FROM driverRegistration WHERE status="Inactive"''')
+        result = self.cursor.fetchall()
+        usernames = [row for row in result]
+        # print(usernames)
         self.conn.commit()
         return usernames
 if __name__ == "__main__":

@@ -81,8 +81,6 @@ class AdminLogin:
                 self.password_entry.config(show="")
             else:
                 self.password_entry.config(show="*")
-                
-
 
         check_button = tk.Checkbutton(self.root,text="show password", command=show_password,bg="white")
         check_button.place(x=745,y=370)
@@ -108,10 +106,16 @@ class AdminLogin:
         # self.conn.commit()
 
         def admin_login():
-            from admindash import AdminDashboard
-            self.root.destroy()
-            view = tk.Tk()
-            AdminDashboard(view)
+            print(self.password_entry.get() , self.email_entry.get() )
+            if self.password_entry.get() == "admin1234" and self.email_entry.get() == "admin@gmail.com":
+                messagebox.showinfo("Success", "login successfully!")
+                from admindash import AdminDashboard
+                self.root.destroy()
+                view = tk.Tk()
+                AdminDashboard(view)
+            else:
+                messagebox.showerror("Error", "Invalid password or email!")
+            
 
         # password=self.password_entry.get()
         # email=self.email_entry.get()

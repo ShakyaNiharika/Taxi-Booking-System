@@ -88,24 +88,24 @@ class DriverHistory:
 
     #Main Page
         #treeview
-        self.tree = ttk.Treeview(self.root, columns=("Customer Name","Phone Number","Email Address","Pickup Address", "dropoff Address", "Date", "Time","Booking Status"), show="headings",height=10)
+        self.tree = ttk.Treeview(self.root, columns=("ID","Pickup Address", "dropoff Address", "Date", "Time","Customer_id","Driver_id","Booking Status"), show="headings",height=10)
         self.tree.heading("Booking Status", text="Booking Status")
-        self.tree.heading("Customer Name", text="Customer Name")
-        self.tree.heading("Phone Number", text="Phone Number")
-        self.tree.heading("Email Address", text="Email Address")
+        self.tree.heading("ID", text="ID")
         self.tree.heading("Pickup Address", text="Pickup Address")
         self.tree.heading("dropoff Address", text="dropoff Address")
         self.tree.heading("Date", text="Date")
         self.tree.heading("Time", text="Time")
+        self.tree.heading("Customer_id", text="Customer_id")
+        self.tree.heading("Driver_id", text="Driver_id")
         
         self.tree.column("Booking Status", width=95)
-        self.tree.column("Customer Name", width=95)
-        self.tree.column("Phone Number", width=100)
-        self.tree.column("Email Address", width=100)
+        self.tree.column("ID", width=40)
         self.tree.column("Pickup Address", width=90)  # Adjust the width as needed
         self.tree.column("dropoff Address", width=94)
         self.tree.column("Date", width=50)
         self.tree.column("Time", width=50)
+        self.tree.column("Customer_id", width=80)
+        self.tree.column("Driver_id", width=80)
 
         self.tree.grid(row=7, columnspan=4, padx=260, pady=150)
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
@@ -114,20 +114,21 @@ class DriverHistory:
         #Database connection
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
-        self.cursor.execute('''SELECT 
-                    customer.username,
-                    customer.Phone_Number,
-                    customer.Email_Address,
-                    customerDashboard.pickup_address,
-                    customerDashboard.dropoff_address,
-                    customerDashboard.pickup_date,
-                    customerDashboard.pickup_time
-                FROM 
-                    customerDashboard
-                JOIN 
-                    customer
-                ON 
-                    customer.id = customerDashboard.customer_id''')
+        self.cursor.execute('''SELECT * FROM customerDashboard WHERE driverid=?''', (globalvar.driver[0],))
+        # self.cursor.execute('''SELECT 
+        #             customer.username,
+        #             customer.Phone_Number,
+        #             customer.Email_Address,
+        #             customerDashboard.pickup_address,
+        #             customerDashboard.dropoff_address,
+        #             customerDashboard.pickup_date,
+        #             customerDashboard.pickup_time
+        #         FROM 
+        #             customerDashboard
+        #         JOIN 
+        #             customer
+        #         ON 
+        #             customer.id = customerDashboard.customer_id''')
         records = self.cursor.fetchall()
 
         if records:
