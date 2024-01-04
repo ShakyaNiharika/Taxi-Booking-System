@@ -81,6 +81,38 @@ class DriverDashboard:
         self.history = tk.Button(self.root, text="History",command=history, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.history.place(x=56, y=325)
 
+        #profile image
+        self.profile = Image.open('image/profile.png')
+        self.profile= self.profile.resize((20,20))
+        self.profile = ImageTk.PhotoImage(self.profile)
+        self.profile_label = tk.Label(self.root, image=self.profile,bg="#E8E4E4")
+        self.profile_label.place(x=30,y=330)
+
+        def myprofile():
+            self.root.destroy()
+            from drivermyprofile import DriverMyProfile
+            profile=tk.Tk()
+            DriverMyProfile(profile)
+
+        self.my_profile = tk.Button(self.root, text="My Profile",command=myprofile, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.my_profile.place(x=56, y=365)
+
+        #password image
+        self.sidelock = Image.open('image/sidelock.png')
+        self.sidelock= self.sidelock.resize((20,20))
+        self.sidelock = ImageTk.PhotoImage(self.sidelock)
+        self.sidelock_label = tk.Label(self.root, image=self.sidelock,bg="#E8E4E4")
+        self.sidelock_label.place(x=30,y=415)
+
+        def change_password():
+            self.root.destroy()
+            from driverchangepassword import DriverChangePassword
+            change_pass=tk.Tk()
+            DriverChangePassword(change_pass)
+
+        self.change_password = tk.Button(self.root, text="Change Password", command=change_password,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        self.change_password.place(x=56, y=410)
+
         def logout():
             self.root.destroy()
             from driverlogin import Driverlogin

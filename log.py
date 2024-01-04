@@ -50,15 +50,6 @@ class TaxiBookingLogin:
         image_label = tk.Label(self.root, image=self.photo,bg="white")
         image_label.place(x=640,y=40)
 
-        # #choice
-        # method = ['Customer' , 'Admin' ,'Driver']
-        # self.var = tk.StringVar()
-        # drop_down = OptionMenu(self.root, self.var, *method)
-        # drop_down.config(width=16 , indicatoron=True,bg="white",borderwidth=0)
-        # drop_down["menu"].config(bg="#FFA500")
-        # self.var.set('Select the user')
-        # drop_down.place(x=726,y=209,height=35 )
-
         self.tittle = tk.Label(self.root,text="Login:",font=("Verdana", 15),bg="white")
         self.tittle.place(x=664,y=150)
 
