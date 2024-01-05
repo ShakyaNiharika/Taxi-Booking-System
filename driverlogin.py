@@ -25,6 +25,15 @@ class Driverlogin:
         # gray frame
         gray_frame=tk.Frame(self.root,bg="#E8E4E4")
         gray_frame.place(x=40,y=26,relwidth=0.46, relheight=0.90)
+
+        self.tittle = tk.Label(self.root,text="Taxi Booking System",font=("Verdana", 18),bg="#E8E4E4")
+        self.tittle.place(x=120,y=160)
+
+        self.top = Image.open('image/front.png')
+        self.top= self.top.resize((400,390))
+        self.top = ImageTk.PhotoImage(self.top)
+        self.top_label = tk.Label(self.root, image=self.top,bg="#E8E4E4")
+        self.top_label.place(x=60,y=200)
        
         # white frame
         frame = tk.Frame(self.root, bg="white")
@@ -105,9 +114,9 @@ class Driverlogin:
                 globalvar.driver=result
                 messagebox.showinfo("Success", "Record created successfully!")
                 self.root.destroy()
-                from driverdash import DriverDashboard
+                from driverhistory import DriverHistory
                 self.customer_dash = tk.Tk()
-                DriverDashboard(self.customer_dash)
+                DriverHistory(self.customer_dash)
             else:
                 messagebox.showerror("Invalid password or email")
             

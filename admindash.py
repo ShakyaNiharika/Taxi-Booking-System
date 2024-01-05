@@ -34,6 +34,17 @@ class AdminDashboard:
         self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
 
+        #Time
+        def update_time():
+            self.current_time = time.strftime('%H:%M:%S')
+            self.clock_label.config(text=self.current_time)
+            self.root.after(1000, update_time) 
+
+        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
+        self.clock_label.place(x=75,y=230)
+        # Start updating the time
+        update_time()
+
         assign_driver = tk.Button(self.root, text="Assign Drivers",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
         assign_driver.place(x=60, y=260)
 
@@ -55,14 +66,11 @@ class AdminDashboard:
         billing = tk.Button(self.root, text="View Drivers",command=driver,  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
         billing.place(x=60, y=340)
 
-        payment = tk.Label(self.root, text="Payment",  font=("Verdana", 14),bg="#E8E4E4")
-        payment.place(x=60, y=385)
-
         def logout():
             self.root.destroy()
-            from adminlogin import AdminLogin
+            from log import TaxiBookingLogin
             out=tk.Tk()
-            AdminLogin(out)
+            TaxiBookingLogin(out)
 
         self.Logout= tk.Button(self.root, text="Logout",command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
@@ -152,13 +160,6 @@ class AdminDashboard:
 
         else:
                 messagebox.showinfo("No Records", "No records found.")
-
-        # def assign():
-             
-        #      selected_driver = self.var.get()
-        #      self.cursor.execute(f'''Update customerDashboard set booking_status="Booked" where id={self.Booking_id_entry.get()}''')
-        #      self.conn.commit()
-        #      messagebox.showinfo("Success", "Assigned successfully!")
 
         #Entry fields
 

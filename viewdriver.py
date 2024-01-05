@@ -31,6 +31,17 @@ class ViewDriver:
         user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         user_label.place(x=58,y=80)
 
+        #Time
+        def update_time():
+            self.current_time = time.strftime('%H:%M:%S')
+            self.clock_label.config(text=self.current_time)
+            self.root.after(1000, update_time) 
+
+        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
+        self.clock_label.place(x=75,y=230)
+        # Start updating the time
+        update_time()
+
         def assigndriver():
             from admindash import AdminDashboard
             self.root.destroy()
@@ -52,26 +63,19 @@ class ViewDriver:
         billing = tk.Button(self.root, text="View Drivers",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
         billing.place(x=60, y=340)
 
-        payment = tk.Label(self.root, text="Payment",  font=("Verdana", 14),bg="#E8E4E4")
-        payment.place(x=60, y=385)
-
         def logout():
             self.root.destroy()
-            from adminlogin import AdminLogin
+            from log import TaxiBookingLogin
             logout=tk.Tk()
-            AdminLogin(logout)
+            TaxiBookingLogin(logout)
 
         self.Logout= tk.Button(self.root, text="Logout", command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
 
     #main View profile
-        #driver_search 
-        driver_name = tk.Label(self.root, text="Driver Name",  font=("Verdana", 10),bg="#E8E4E4")
-        driver_name.place(x=280, y=120)
-        self.customer_name_entry = tk.Entry(self.root,width="35")
-        self.customer_name_entry.place(x=400,y=110,height="30")
-        self.search_button= tk.Button(self.root, text="Search",  font=("Verdana", 8),borderwidth=0,bg="#E8E4E4")
-        self.search_button.place(x=630, y=110,height="30")
+        #haeding 
+        view_driver = tk.Label(self.root, text="View Driver",  font=("Verdana", 10),bg="#E8E4E4",borderwidth=5)
+        view_driver.place(x=280, y=120)
         background_frame=tk.Frame(self.root,bg="#E8E4E4")
         background_frame.place(x=275,y=162,relwidth=0.68, relheight=0.62)
 

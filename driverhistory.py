@@ -57,16 +57,6 @@ class DriverHistory:
         # Start updating the time
         update_time()
 
-        #dashboard image
-        self.dash = Image.open('image/dash.png')
-        self.dash= self.dash.resize((20,20))
-        self.dash = ImageTk.PhotoImage(self.dash)
-        self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
-        self.dash_label.place(x=30,y=285)
-
-        self.dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.dashboard.place(x=56, y=280)
-
         self.his = Image.open('image/history.png')
         self.his= self.his.resize((20,20))
         self.his = ImageTk.PhotoImage(self.his)
@@ -81,7 +71,7 @@ class DriverHistory:
         self.profile= self.profile.resize((20,20))
         self.profile = ImageTk.PhotoImage(self.profile)
         self.profile_label = tk.Label(self.root, image=self.profile,bg="#E8E4E4")
-        self.profile_label.place(x=30,y=330)
+        self.profile_label.place(x=30,y=365)
 
         def myprofile():
             self.root.destroy()
@@ -110,9 +100,9 @@ class DriverHistory:
 
         def logout():
             self.root.destroy()
-            from driverlogin import Driverlogin
+            from log import TaxiBookingLogin
             log_out=tk.Tk()
-            Driverlogin(log_out)
+            TaxiBookingLogin(log_out)
 
         self.Logout= tk.Button(self.root, text="Logout",command=logout , font=("Verdana", 14),borderwidth=0,bg="#F1B547")
         self.Logout.place(x=56, y=590)

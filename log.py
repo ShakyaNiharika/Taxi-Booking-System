@@ -85,22 +85,6 @@ class TaxiBookingLogin:
         check_button = tk.Checkbutton(self.root,text="show password", command=show_password,bg="white")
         check_button.place(x=745,y=370)
 
-        # self.show_password_var = tk.BooleanVar()
-        # self.show_password_var.set(False)
-        # def toggle_password_visibility():
-        #     if self.show_password_var.get():
-        #         # Show the password
-        #         self.password_entry.config(show="")
-        #     else:
-        #         # Hide the password
-        #         self.password_entry.config(show="*")
-
-        # self.show_password_checkbox = tk.Checkbutton(self.root, text="Show Password", variable=self.show_password_var, command=toggle_password_visibility)
-        # self.show_password_checkbox.place(x=20, y=90)
-
-        
-
-    
 
         def login():
             
@@ -180,15 +164,7 @@ class TaxiBookingLogin:
 #         # self.result_label = tk.Entry(self.root, text="", font=("bold", 12))
 #         # self.result_label.place(x=180, y=420)
         
-        #Database connection
-        self.conn = sqlite3.connect("crud1.db")
-        self.cursor = self.conn.cursor()
-    
-
-        
-        
-
-#     #   self.result_label.config(text=f"Username: {username}")
+       
 
 if __name__ == "__main__":
     root = tk.Tk()

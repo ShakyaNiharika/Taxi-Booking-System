@@ -55,23 +55,19 @@ class DriverChangePassword:
         # Start updating the time
         update_time()
 
-        #dashboard image
-        self.dash = Image.open('image/dash.png')
-        self.dash= self.dash.resize((20,20))
-        self.dash = ImageTk.PhotoImage(self.dash)
-        self.dash_label = tk.Label(self.root, image=self.dash,bg="#E8E4E4")
-        self.dash_label.place(x=30,y=285)
-
-        self.dashboard = tk.Button(self.root, text="Dashboard",  font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.dashboard.place(x=56, y=280)
-
         self.his = Image.open('image/history.png')
         self.his= self.his.resize((20,20))
         self.his = ImageTk.PhotoImage(self.his)
         self.his_label = tk.Label(self.root, image=self.his,bg="#E8E4E4")
         self.his_label.place(x=30,y=335)
 
-        self.history = tk.Button(self.root, text="History", font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        def myhistory():
+            self.root.destroy()
+            from driverhistory import DriverHistory
+            his=tk.Tk()
+            DriverHistory(his)
+
+        self.history = tk.Button(self.root, text="History",command=myhistory, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.history.place(x=56, y=325)
 
         #profile image
@@ -79,9 +75,15 @@ class DriverChangePassword:
         self.profile= self.profile.resize((20,20))
         self.profile = ImageTk.PhotoImage(self.profile)
         self.profile_label = tk.Label(self.root, image=self.profile,bg="#E8E4E4")
-        self.profile_label.place(x=30,y=330)
+        self.profile_label.place(x=30,y=365)
 
-        self.my_profile = tk.Button(self.root, text="My Profile", font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
+        def mypro():
+            self.root.destroy()
+            from drivermyprofile import DriverMyProfile
+            change_pass=tk.Tk()
+            DriverMyProfile(change_pass)
+
+        self.my_profile = tk.Button(self.root, text="My Profile",command=mypro, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.my_profile.place(x=56, y=365)
 
        #password image
@@ -100,12 +102,11 @@ class DriverChangePassword:
         self.change_password = tk.Button(self.root, text="Change Password", command=change_password,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
         self.change_password.place(x=56, y=410)
     
-
         def logout():
             self.root.destroy()
-            from driverlogin import Driverlogin
+            from log import TaxiBookingLogin
             log_out=tk.Tk()
-            Driverlogin(log_out)
+            TaxiBookingLogin(log_out)
 
         self.Logout= tk.Button(self.root, text="Logout",command=logout , font=("Verdana", 14),borderwidth=0,bg="#F1B547")
         self.Logout.place(x=56, y=590)
