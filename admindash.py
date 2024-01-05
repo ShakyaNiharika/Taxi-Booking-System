@@ -198,11 +198,15 @@ class AdminDashboard:
         self.selectingdDriver()
 
         def assign():
-             booking_id=self.Booking_id_entry.get()
-             selected_driver = self.var.get()
-             self.cursor.execute(f"Update customerDashboard SET booking_status='Booked',driverid ='{selected_driver}' where id='{booking_id}' ")
-             self.conn.commit()
-             messagebox.showinfo("Success", "Assigned successfully!")
+            booking_id=self.Booking_id_entry.get()
+            selected_driver = self.var.get()
+            self.cursor.execute(f"Update customerDashboard SET booking_status='Booked',driverid ='{selected_driver}' where id='{booking_id}' ")
+            self.conn.commit()
+            messagebox.showinfo("Success", "Assigned successfully!")
+            self.root.destroy()
+            new_root = tk.Tk()
+            AdminDashboard(new_root)
+            new_root.mainloop()
             
 
 
@@ -210,27 +214,22 @@ class AdminDashboard:
         self.cancel_booking= tk.Button(self.root,  text="Assign Driver",command=assign,font=("Verdana", 10),width=13,bg="#F1B547",)
         self.cancel_booking.place(x=450, y=530)
 
-        # def cancel():
-        #     selected_item = self.tree.selection()
-        #     if not selected_item:
-        #         messagebox.showerror("error","Plese select one")
-        #     else:
-        #         selected_id = self.tree.item(selected_item, "values")[0]
-        #         self.cursor.execute('''DELETE FROM customerDashboard WHERE id=?''', (selected_id,))
-        #         self.conn.commit()
-        #         messagebox.showinfo("success","Your booking have been canceled successfully!")
-        #         self.clear_entries()
-        #         #  read()
-
-
-        #     def clear_entries(self):
-        #         self.pickup_address_entry.delete(0, tk.END)
-        #         self.dropoff_address_entry.delete(0, tk.END)
-        #         self.pickup_date_entry.delete(0, tk.END)
-        #         self.pickup_time_entry.delete(0, tk.END)
+        def cancel():
+            selected_item = self.tree.selection()
+            if not selected_item:
+                messagebox.showerror("error","Plese select one")
+            else:
+                selected_id = self.tree.item(selected_item, "values")[0]
+                self.cursor.execute('''DELETE FROM customerDashboard WHERE id=?''', (selected_id,))
+                self.conn.commit()
+                messagebox.showinfo("success","Your booking have been canceled successfully!")
+            self.root.destroy()
+            new_root = tk.Tk()
+            AdminDashboard(new_root)
+            new_root.mainloop()
            
             
-        self.cancel_booking= tk.Button(self.root, text="Cancel Booking", font=("Verdana", 10),bg="#F1B547",)
+        self.cancel_booking= tk.Button(self.root, text="Cancel Booking",command=cancel, font=("Verdana", 10),bg="#F1B547",)
         self.cancel_booking.place(x=580, y=530)
         
 

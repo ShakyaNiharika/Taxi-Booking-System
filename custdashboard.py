@@ -4,7 +4,6 @@ from PIL import Image, ImageTk
 from tkcalendar import*
 import sqlite3
 import globalvar
-
 import time
 
 
@@ -180,10 +179,6 @@ class CustomerDashboard:
                 # clear_entries()
             else:
                 messagebox.showerror("There is smothing problem with your entries")
-#To display in the treeview
-        # def display_in_treeview(self, pickup_address, dropoff_address, pickup_date, pickup_time):
-        #     data = (pickup_address, dropoff_address, pickup_date, pickup_time)
-        #     self.tree.insert("", "end", values=data, tags=("Driver_Name",))
 
 #To Update the customerDashboard
         def update():
@@ -278,7 +273,7 @@ class CustomerDashboard:
         
         
         self.tree.column("S.N", width=50)
-        self.tree.column("Pickup Address", width=90)  # Adjust the width as needed
+        self.tree.column("Pickup Address", width=90)  
         self.tree.column("dropoff Address", width=94)
         self.tree.column("Picup Date", width=80)
         self.tree.column("Pickup Time", width=80)
@@ -288,38 +283,6 @@ class CustomerDashboard:
 
         self.tree.grid(row=4, columnspan=4, padx=530, pady=350)#here changed padx
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
-
-        
-
-#thisssss
-    #     self.cus_fetch()
-
-    # def cus_fetch(self):
-    #     self.conn = sqlite3.connect("crud5.db")
-    #     self.cursor = self.conn.cursor()
-        
-    #     self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM customerdashboard where customer_id = ?''')
-    #     records = self.cursor.fetchall()
-
-    #     if len(records)!= 0:
-                
-    #             for i in records:
-    #                 self.tree.insert("", "end", values=i)
-    #                 self.conn.commit()
-
-    # def get(self,events = ""):
-    #     rows = self.root.focus()
-    #     content = self.root.item(rows)
-    #     records = content["values"]
-    #     self.root.set(rows[1])
-
-    
-
-
-
-
-
-
 
 if __name__ == "__main__":
     root = tk.Tk()

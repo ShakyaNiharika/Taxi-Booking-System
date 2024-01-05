@@ -43,15 +43,6 @@ class AdminLogin:
         image_label = tk.Label(self.root, image=self.photo,bg="white")
         image_label.place(x=640,y=40)
 
-        # #choice
-        # method = ['Customer' , 'Admin' ,'Driver']
-        # self.var = tk.StringVar()
-        # drop_down = OptionMenu(self.root, self.var, *method)
-        # drop_down.config(width=16 , indicatoron=True,bg="white",borderwidth=0)
-        # drop_down["menu"].config(bg="#FFA500")
-        # self.var.set('Select the user')
-        # drop_down.place(x=726,y=209,height=35 )
-
         self.tittle = tk.Label(self.root,text="Login:",font=("Verdana", 15),bg="white")
         self.tittle.place(x=664,y=150)
 
@@ -84,16 +75,7 @@ class AdminLogin:
 
         check_button = tk.Checkbutton(self.root,text="show password", command=show_password,bg="white")
         check_button.place(x=745,y=370)
-
-        # #for login
-        # password=self.password_entry.get()
-        # email=self.email_entry.get()
-        # if password == "admin1234" and email == "admin@gmail.com":
-        #     messagebox.showinfo("Success", "login successfully!")
-        # else:
-        #     messagebox.showerror("Error", "Invalid password or email!")
-
-
+        
          # Database
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()

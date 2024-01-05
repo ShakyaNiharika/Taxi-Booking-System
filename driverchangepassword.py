@@ -33,7 +33,7 @@ class DriverChangePassword:
         self.top_label.place(x=700,y=10)
         self.name = tk.Label(text="",font=("Verdana", 16),bg="#E8E4E4")
         self.name.place(x=780,y=25)
-        # self.name.config(text=globalvar.driver[1])
+        self.name.config(text=globalvar.driver[1])
 
         #image
         self.customer = Image.open('image/driverlogo.png')

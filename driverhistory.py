@@ -35,7 +35,7 @@ class DriverHistory:
         self.top_label.place(x=700,y=10)
         self.name = tk.Label(text="",font=("Verdana", 16),bg="#E8E4E4")
         self.name.place(x=780,y=25)
-        # self.name.config(text=globalvar.driver[1])
+        self.name.config(text=globalvar.driver[1])
 
         #image
         self.customer = Image.open('image/driverlogo.png')
@@ -139,7 +139,10 @@ class DriverHistory:
         self.tree.column("Customer_id", width=80)
         self.tree.column("Driver_id", width=80)
 
-        self.tree.grid(row=7, columnspan=4, padx=260, pady=150)
+        
+
+        # self.tree.grid(row=7, columnspan=4, padx=260, pady=150)
+        self.tree.place(x=300,y=100,height=300,width = 600)
         self.tree.tag_configure("Driver_Name", background="#E8E4E4")
 
         #Joining the two tables
@@ -170,6 +173,33 @@ class DriverHistory:
         else:
                 messagebox.showinfo("No Records", "No records found.")
 
+        self.button=tk.Button(self.root,text="Ride Complete", bg="#F1B547",font=("Verdana", 10),command=self.complete)
+        self.button.place(x=550,y=530,width=120,height=30) 
+
+    def complete(self):
+        selected_item = self.tree.selection()
+        selected_id = self.tree.item(selected_item, "values")[0]
+
+        if not selected_item:
+            messagebox.showerror("Error", "Please select a record to complete the ride.")
+            return
+        self.conn = sqlite3.connect("crud5.db")
+        self.cursor = self.conn.cursor()
+        self.cursor.execute('''UPDATE customerDashboard SET booking_status="completed" WHERE id=?''',( selected_id,))
+        self.conn.commit()
+        messagebox.showinfo("Success", "Ride Completed successfully!")
+        self.root.destroy()
+        new_root = tk.Tk()
+        DriverHistory(new_root)
+        new_root.mainloop()
+    
+
+        
+
+         ##Button
+        
+    
+    
 
 
 if __name__ == "__main__":
