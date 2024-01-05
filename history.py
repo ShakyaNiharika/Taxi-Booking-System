@@ -165,7 +165,8 @@ class History:
                 JOIN 
                     driver
                 ON 
-                    driver.driver_id = booking.driverid''')
+                    driver.driver_id = booking.driverid
+                and booking.customer_id = ?''',(globalvar.customer[0],))
         records = self.cursor.fetchall()
 
         if records:
