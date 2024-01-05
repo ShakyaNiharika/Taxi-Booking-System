@@ -139,12 +139,12 @@ class DriverChangePassword:
            
             password=self.old_password_entry.get()
 
-            self.cursor.execute('''SELECT password FROM driverRegistration WHERE password=?''',(password,))
+            self.cursor.execute('''SELECT password FROM driver WHERE password=?''',(password,))
             result = self.cursor.fetchone() 
             
             new_password=self.new_password_entry.get()
             if result[0] == check:
-                self.cursor.execute('''Update driverRegistration SET password=? WHERE driver_id=?''',
+                self.cursor.execute('''Update driver SET password=? WHERE driver_id=?''',
                                     (new_password,driver_id ))
                 self.conn.commit()
                 messagebox.showinfo("Success", "password updated successfully!")

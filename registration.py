@@ -18,15 +18,6 @@ class RegistrationForm:
 
         self.create_widgets()
 
-  
-       
-        # self.cursor.execute('''UPDATE records SET username=?, password=?, Address=?, Phone_Number=?, Email_Address=?, Method_Of_Payment=?, Gender=? WHERE id=?''', 
-        #                     (username, password, Address, Phone_Number,Email_Address,Method_Of_Payment,Gender))
-        # self.conn.commit()
-        # messagebox.showinfo("Success", "Record updated successfully!")
-
-
-
     def create_widgets(self):
          # background image
         self.bg_image = Image.open('image/bgimage.jpg')

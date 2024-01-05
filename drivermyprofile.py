@@ -184,7 +184,7 @@ class DriverMyProfile:
             gender=self.vars.get()
             update_value=globalvar.driver[0]
 
-            self.cursor.execute('''Update driverRegistration SET username=?, address=?, phone_number=?,email_address=?,license_No=?,gender=? WHERE driver_id=?''',
+            self.cursor.execute('''Update driver SET username=?, address=?, phone_number=?,email_address=?,license_No=?,gender=? WHERE driver_id=?''',
                                     (username, address, phone_number,email_address,license_No,gender, update_value))
             self.conn.commit()
             messagebox.showinfo("Success", "updated successfully!")

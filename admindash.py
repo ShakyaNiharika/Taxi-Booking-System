@@ -228,7 +228,7 @@ class AdminDashboard:
         
 
     def selectingID(self):
-        self.cursor.execute('''SELECT driver_id FROM driverRegistration WHERE status="Inactive"''')
+        self.cursor.execute('''SELECT driver_id FROM driver WHERE status="Inactive"''')
         result = self.cursor.fetchall()
         id=result
         # print(id[0][0])
@@ -236,7 +236,7 @@ class AdminDashboard:
         return id
         
     def selectingdDriver(self):
-        self.cursor.execute('''SELECT driver_id , username FROM driverRegistration WHERE status="Inactive"''')
+        self.cursor.execute('''SELECT driver_id , username FROM driver WHERE status="Inactive"''')
         result = self.cursor.fetchall()
         usernames = [row for row in result]
         # print(usernames)

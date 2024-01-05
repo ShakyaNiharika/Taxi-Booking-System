@@ -97,7 +97,7 @@ class ViewDriver:
 
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
-        self.cursor.execute('''SELECT driver_id,username,Phone_Number,Email_Address,license_No FROM driverRegistration''')
+        self.cursor.execute('''SELECT driver_id,username,Phone_Number,Email_Address,license_No FROM driver''')
         records = self.cursor.fetchall()
 
         if records:

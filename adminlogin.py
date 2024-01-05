@@ -110,9 +110,9 @@ class AdminLogin:
 
         # password=self.password_entry.get()
         # email=self.email_entry.get()
-        self.cursor.execute('''INSERT INTO admin ( password, Email_Address ) VALUES (?, ?)''',
-                                                ( 'admin@gmail.com', 'admin12345' ))
-        self.conn.commit()
+        # self.cursor.execute('''INSERT INTO admin ( password, Email_Address ) VALUES (?, ?)''',
+        #                                         ( 'admin@gmail.com', 'admin12345' ))
+        # self.conn.commit()
         
 
         # def login():

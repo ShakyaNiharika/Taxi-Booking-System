@@ -153,9 +153,9 @@ class History:
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
         self.cursor.execute('''SELECT 
-                    driverRegistration.username,
-                    driverRegistration.Phone_Number,
-                    driverRegistration.Email_Address,
+                    driver.username,
+                    driver.Phone_Number,
+                    driver.Email_Address,
                     booking.pickup_address,
                     booking.dropoff_address,
                     booking.pickup_date,
@@ -163,9 +163,9 @@ class History:
                 FROM 
                     booking
                 JOIN 
-                    driverRegistration
+                    driver
                 ON 
-                    driverRegistration.driver_id = booking.driverid''')
+                    driver.driver_id = booking.driverid''')
         records = self.cursor.fetchall()
 
         if records:

@@ -107,7 +107,7 @@ class Driverlogin:
             password = self.password_entry.get()
 
         
-            self.cursor.execute('''SELECT * FROM driverRegistration WHERE email_address=? AND password=? ''',(email,password))
+            self.cursor.execute('''SELECT * FROM driver WHERE email_address=? AND password=? ''',(email,password))
             result = self.cursor.fetchone()
             
             if result:

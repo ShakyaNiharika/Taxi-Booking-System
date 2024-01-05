@@ -18,15 +18,6 @@ class DriverRegistration:
 
         self.create_widgets()
 
-  
-       
-        # self.cursor.execute('''UPDATE records SET username=?, password=?, Address=?, Phone_Number=?, Email_Address=?, Method_Of_Payment=?, Gender=? WHERE id=?''', 
-        #                     (username, password, Address, Phone_Number,Email_Address,Method_Of_Payment,Gender))
-        # self.conn.commit()
-        # messagebox.showinfo("Success", "Record updated successfully!")
-
-
-
     def create_widgets(self):
          # background image
         self.bg_image = Image.open('image/bgimage.jpg')
@@ -98,7 +89,7 @@ class DriverRegistration:
         self.cursor = self.conn.cursor()
 
         #Create table if not exists
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS driverRegistration
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS driver
                             (driver_id INTEGER PRIMARY KEY AUTOINCREMENT,
                             username TEXT, password TEXT, Address TEXT, Phone_Number TEXT, Email_Address TEXT,license_No TEXT,Gender TEXT)''')
                             
@@ -137,7 +128,7 @@ class DriverRegistration:
                 if len(password) >= 6:
                     if len(password) >= 6:
                         if "@" in Email_Address:
-                            self.cursor.execute('''INSERT INTO driverRegistration (username, password, Address, Phone_Number, Email_Address, license_No, Gender ,status) VALUES (?, ?, ?, ?,?, ?, ?, ?)''',
+                            self.cursor.execute('''INSERT INTO driver (username, password, Address, Phone_Number, Email_Address, license_No, Gender ,status) VALUES (?, ?, ?, ?,?, ?, ?, ?)''',
                                                 (username, password, Address, Phone_Number, Email_Address, license_No, Gender,status ))
                             self.conn.commit()
                             messagebox.showinfo("Success", "Record created successfully!")
