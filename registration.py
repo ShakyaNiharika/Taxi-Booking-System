@@ -162,45 +162,6 @@ class RegistrationForm:
         button=tk.Button(self.root,text="Sign In", command=create_record,bg="#FFA500",font=("Verdana", 10))
         button.place(x=605,y=525,width=260,height=30) 
 
-       
-        # def click():
-            # if username and password and address and phone_number and email_address and method_of_payment and gender and date_of_birth:
-            #     messagebox.showinfo("Success","Record created successfully")
-            #     sign_in()
-            # else:
-            #     messagebox.showinfo("Error","Please fill in all fields.")
-
-        # lbl_4 = Label(self.root, text="Gender", width=20, font=("bold", 10))
-        # lbl_4.place(x=70, y=230)
-        # self.vars = IntVar()
-        # Radiobutton(self.root, text="Male", padx=5, variable=self.vars, value=1).place(x=235, y=230)
-        # Radiobutton(self.root, text="Female", padx=20, variable=self.vars, value=2).place(x=290, y=230)
-
-        # lbl_5 = Label(self.root, text="Country", width=20, font=("bold", 11))
-        # lbl_5.place(x=70, y=280)
-        # list_of_cntry = ['Nepal', 'Canada', 'US', 'Germany', 'UK']
-        # self.cv = StringVar()
-        # drplist = OptionMenu(self.root, self.cv, *list_of_cntry)
-        # drplist.config(width=15)
-        # self.cv.set('Select your Country')
-        # drplist.place(x=240, y=280)
-
-        # lbl_6 = Label(self.root, text="Language", width=20, font=('bold', 10))
-        # lbl_6.place(x=75, y=330)
-        # self.vars1 = IntVar()
-        # self.vars2 = IntVar()
-        # Checkbutton(self.root, text="English", variable=self.vars1).place(x=230, y=330)
-        # Checkbutton(self.root, text="Neepali", variable=self.vars2).place(x=300, y=330)
-
-        # submit_button = Button(self.root, text='Sign In', width=30, bg="black", fg='white', command=self.submit)
-        # submit_button.place(x=240, y=440)
-
-        # self.result_label = Label(self.root, text="", font=("bold", 12))
-        # self.result_label.place(x=180, y=420)
-
-
-    
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = RegistrationForm(root)

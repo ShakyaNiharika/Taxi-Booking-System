@@ -68,7 +68,7 @@ class DriverMyProfile:
         self.his= self.his.resize((20,20))
         self.his = ImageTk.PhotoImage(self.his)
         self.his_label = tk.Label(self.root, image=self.his,bg="#E8E4E4")
-        self.his_label.place(x=30,y=335)
+        self.his_label.place(x=30,y=300)
 
         def myprofile():
             self.root.destroy()
@@ -77,24 +77,24 @@ class DriverMyProfile:
             DriverMyProfile(profile)
 
         self.history = tk.Button(self.root, text="History",command=myprofile, font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.history.place(x=56, y=325)
+        self.history.place(x=56, y=290)
 
         #profile image
         self.profile = Image.open('image/profile.png')
         self.profile= self.profile.resize((20,20))
         self.profile = ImageTk.PhotoImage(self.profile)
         self.profile_label = tk.Label(self.root, image=self.profile,bg="#E8E4E4")
-        self.profile_label.place(x=30,y=365)
+        self.profile_label.place(x=30,y=335)
 
         self.my_profile = tk.Button(self.root, text="My Profile", font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.my_profile.place(x=56, y=365)
+        self.my_profile.place(x=56, y=325)
 
         #password image
         self.sidelock = Image.open('image/sidelock.png')
         self.sidelock= self.sidelock.resize((20,20))
         self.sidelock = ImageTk.PhotoImage(self.sidelock)
         self.sidelock_label = tk.Label(self.root, image=self.sidelock,bg="#E8E4E4")
-        self.sidelock_label.place(x=30,y=415)
+        self.sidelock_label.place(x=30,y=370)
 
         def change_password():
             self.root.destroy()
@@ -103,7 +103,7 @@ class DriverMyProfile:
             DriverChangePassword(change_pass)
 
         self.change_password = tk.Button(self.root, text="Change Password", command=change_password,font=("Verdana", 14),bg="#E8E4E4",borderwidth="0")
-        self.change_password.place(x=56, y=410)
+        self.change_password.place(x=56, y=365)
 
         def logout():
             self.root.destroy()

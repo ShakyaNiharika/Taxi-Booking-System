@@ -134,7 +134,7 @@ class CustomerDashboard:
         self.cursor = self.conn.cursor()
 
         # Create table if not exists
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS customerDashboard
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS booking
                             (id INTEGER PRIMARY KEY AUTOINCREMENT,
                             pickup_address TEXT , dropoff_address TEXT, pickup_date TEXT, pickup_time TEXT,customer_id INTERGER,FOREIGN KEY(customer_id) REFERENCES customer(id))''')
                             
@@ -170,7 +170,7 @@ class CustomerDashboard:
             status = 'pending'
 
             if pickup_address and dropoff_address and pickup_date and pickup_time:
-                self.cursor.execute('''INSERT INTO customerDashboard (pickup_address, dropoff_address, pickup_date, pickup_time,customer_id,booking_status) VALUES (?, ?, ?, ?,?,?)''',
+                self.cursor.execute('''INSERT INTO booking (pickup_address, dropoff_address, pickup_date, pickup_time,customer_id,booking_status) VALUES (?, ?, ?, ?,?,?)''',
                                         (pickup_address, dropoff_address, pickup_date, pickup_time,self_id,status))
                 self.conn.commit()
                 messagebox.showinfo("Successfully! Booking has been requested")
@@ -180,7 +180,7 @@ class CustomerDashboard:
             else:
                 messagebox.showerror("There is smothing problem with your entries")
 
-#To Update the customerDashboard
+#To Update the booking
         def update():
             selected_item = self.tree.selection()
 
@@ -193,16 +193,16 @@ class CustomerDashboard:
             pickup_date=self.pickup_date_entry.get()
             pickup_time=self.pickup_time_entry.get()
 
-            self.cursor.execute('''Update customerDashboard SET pickup_address=?, dropoff_address=?, pickup_date=?,pickup_time=? WHERE id=?''',
+            self.cursor.execute('''Update booking SET pickup_address=?, dropoff_address=?, pickup_date=?,pickup_time=? WHERE id=?''',
                                     (pickup_address, dropoff_address, pickup_date,pickup_time, selected_id))
             self.conn.commit()
-            messagebox.showinfo("Success", "booking updated successfully!") #askkkkk
+            messagebox.showinfo("Success", "booking updated successfully!") 
             read()
 
         def read():
             self.tree.delete(*self.tree.get_children())
 
-            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM customerdashboard where customer_id = ?''',str(self_id))
+            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM booking where customer_id = ?''',str(self_id))
             records = self.cursor.fetchall()
 
             if records:
@@ -219,7 +219,7 @@ class CustomerDashboard:
                 messagebox.showerror("error","Plese select one")
             else:
                  selected_id = self.tree.item(selected_item, "values")[0]
-                 self.cursor.execute('''DELETE FROM customerDashboard WHERE id=?''', (selected_id,))
+                 self.cursor.execute('''DELETE FROM booking WHERE id=?''', (selected_id,))
                  self.conn.commit()
                  messagebox.showinfo("success","Your booking have been canceled successfully!")
                  read()

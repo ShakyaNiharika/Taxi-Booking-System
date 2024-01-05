@@ -156,16 +156,16 @@ class History:
                     driverRegistration.username,
                     driverRegistration.Phone_Number,
                     driverRegistration.Email_Address,
-                    customerDashboard.pickup_address,
-                    customerDashboard.dropoff_address,
-                    customerDashboard.pickup_date,
-                    customerDashboard.pickup_time
+                    booking.pickup_address,
+                    booking.dropoff_address,
+                    booking.pickup_date,
+                    booking.pickup_time
                 FROM 
-                    customerDashboard
+                    booking
                 JOIN 
                     driverRegistration
                 ON 
-                    driverRegistration.driver_id = customerDashboard.driverid''')
+                    driverRegistration.driver_id = booking.driverid''')
         records = self.cursor.fetchall()
 
         if records:
@@ -174,9 +174,6 @@ class History:
 
         else:
                 messagebox.showinfo("No Records", "No records found.")
-
-        
-
 
 
 if __name__ == "__main__":

@@ -34,16 +34,7 @@ class AdminDashboard:
         self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
 
-        #Time
-        def update_time():
-            self.current_time = time.strftime('%H:%M:%S')
-            self.clock_label.config(text=self.current_time)
-            self.root.after(1000, update_time) 
-
-        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
-        self.clock_label.place(x=75,y=230)
-        # Start updating the time
-        update_time()
+        
 
         assign_driver = tk.Button(self.root, text="Assign Drivers",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)
         assign_driver.place(x=60, y=260)
@@ -138,20 +129,20 @@ class AdminDashboard:
         self.tree.delete(*self.tree.get_children())
 
         self.cursor.execute('''SELECT 
-                    customerDashboard.id,
+                    booking.id,
                     customer.username,
                     customer.Method_Of_Payment,
-                    customerDashboard.pickup_address,
-                    customerDashboard.dropoff_address,
-                    customerDashboard.pickup_date,
-                    customerDashboard.pickup_time,
-                    customerDashboard.booking_status
+                    booking.pickup_address,
+                    booking.dropoff_address,
+                    booking.pickup_date,
+                    booking.pickup_time,
+                    booking.booking_status
                 FROM 
                     customer
                 JOIN 
-                    customerDashboard
+                    booking
                 ON 
-                    customer.id = customerDashboard.customer_id''')
+                    customer.id = booking.customer_id''')
         records = self.cursor.fetchall()
 
         if records:
@@ -201,7 +192,7 @@ class AdminDashboard:
         def assign():
             booking_id=self.Booking_id_entry.get()
             selected_driver = self.var.get()
-            self.cursor.execute(f"Update customerDashboard SET booking_status='Booked',driverid ='{selected_driver}' where id='{booking_id}' ")
+            self.cursor.execute(f"Update booking SET booking_status='Booked',driverid ='{selected_driver}' where id='{booking_id}' ")
             self.conn.commit()
             messagebox.showinfo("Success", "Assigned successfully!")
             self.root.destroy()
@@ -221,7 +212,7 @@ class AdminDashboard:
                 messagebox.showerror("error","Plese select one")
             else:
                 selected_id = self.tree.item(selected_item, "values")[0]
-                self.cursor.execute('''DELETE FROM customerDashboard WHERE id=?''', (selected_id,))
+                self.cursor.execute('''DELETE FROM booking WHERE id=?''', (selected_id,))
                 self.conn.commit()
                 messagebox.showinfo("success","Your booking have been canceled successfully!")
             self.root.destroy()
