@@ -152,16 +152,6 @@ class DriverMyProfile:
         self.license_No_entry.place(x=460, y=390, height=35, width=260)
         self.string6.set(globalvar.driver[6])
 
-        # method_of_payment = tk.Label(self.root, text="Method Of Payment", font=("bold",11),bg="#E8E4E4")
-        # method_of_payment.place(x=320, y=390)
-        # method = ['Cash' , 'eSewa' ,'Mobile Banking']
-        # self.var = tk.StringVar()
-        # drop_down = OptionMenu(self.root, self.var, *method)
-        # drop_down.config(width=36 , indicatoron=True,bg="white")
-
-        # drop_down["menu"].config(bg="#FFA500")
-        # self.var.set(globalvar.driver[6])
-        # drop_down.place(x=460, y=390,height=35 )
 
         gender = tk.Label(self.root, text="Gender", font=("bold", 11),)
         gender.place(x=320, y=445)
@@ -187,7 +177,7 @@ class DriverMyProfile:
             self.cursor.execute('''Update driver SET username=?, address=?, phone_number=?,email_address=?,license_No=?,gender=? WHERE driver_id=?''',
                                     (username, address, phone_number,email_address,license_No,gender, update_value))
             self.conn.commit()
-            messagebox.showinfo("Success", "updated successfully!")
+            messagebox.showinfo("Success", "Profile updated successfully!")
 
         self.update= tk.Button(self.root, text="Update",font=("Verdana", 10),command=update,bg="#F1B547",width="30",)
         self.update.place(x=460, y=495)

@@ -102,12 +102,12 @@ class TaxiBookingLogin:
 
             if result:
                 globalvar.customer = result
-                messagebox.showinfo("Success", "Record created successfully!")
+                messagebox.showinfo("Success", "Loged in successfully!")
                 self.root.destroy()
                 self.customer_dash = tk.Tk()
                 CustomerDashboard(self.customer_dash)
             else:
-                messagebox.showerror("Invalid password or email")
+                messagebox.showerror("Login","Invalid password or email")
             
         button=tk.Button(self.root,text="Log in customer",command=login, bg="#FFA500",font=("Verdana", 10))
         button.place(x=520,y=400,width=340,height=40) 
@@ -161,10 +161,6 @@ class TaxiBookingLogin:
 
         self.root.geometry("950x630")
 
-#         # self.result_label = tk.Entry(self.root, text="", font=("bold", 12))
-#         # self.result_label.place(x=180, y=420)
-        
-       
 
 if __name__ == "__main__":
     root = tk.Tk()

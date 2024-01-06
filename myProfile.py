@@ -205,7 +205,7 @@ class MyProfile():
             self.cursor.execute('''Update customer SET username=?, address=?, phone_number=?,email_address=?,method_of_payment=?,gender=? WHERE id=?''',
                                     (username, address, phone_number,email_address,method_of_payment,gender, update_value))
             self.conn.commit()
-            messagebox.showinfo("Success", "updated successfully!")
+            messagebox.showinfo("Success", " Profile Updated successfully!")
 
         self.update= tk.Button(self.root, text="Update",font=("Verdana", 10),command=update,bg="#F1B547",width="30",)
         self.update.place(x=460, y=495)

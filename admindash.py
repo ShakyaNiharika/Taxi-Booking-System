@@ -34,6 +34,17 @@ class AdminDashboard:
         self.user_label = tk.Label(self.root, image=self.customer,bg="#E8E4E4")
         self.user_label.place(x=58,y=80)
 
+        #Time
+        def update_time():
+            self.current_time = time.strftime('%H:%M:%S')
+            self.clock_label.config(text=self.current_time)
+            self.root.after(1000, update_time) 
+
+        self.clock_label = tk.Label(self.root, text="", font=("Helvetica", 14))
+        self.clock_label.place(x=75,y=230)
+
+        # Start updating the time
+        update_time()
         
 
         assign_driver = tk.Button(self.root, text="Assign Drivers",  font=("Verdana", 14),bg="#E8E4E4",borderwidth=0)

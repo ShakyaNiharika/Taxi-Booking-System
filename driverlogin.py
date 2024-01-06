@@ -112,13 +112,13 @@ class Driverlogin:
             
             if result:
                 globalvar.driver=result
-                messagebox.showinfo("Success", "Record created successfully!")
+                messagebox.showinfo("Success", "Login successfully!")
                 self.root.destroy()
                 from driverhistory import DriverHistory
                 self.customer_dash = tk.Tk()
                 DriverHistory(self.customer_dash)
             else:
-                messagebox.showerror("Invalid password or email")
+                messagebox.showerror("Error","Invalid password or email")
             
             
         button=tk.Button(self.root,text="Log in driver",command=login, bg="#FFA500",font=("Verdana", 10))

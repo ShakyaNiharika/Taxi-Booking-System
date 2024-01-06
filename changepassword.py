@@ -11,14 +11,7 @@ class ChangePassword():
         self.root = root
         self.root.geometry("950x630")
         self.root.title('My Profile')
-        # try:
-        #     self.frame2=tk.Frame(self.root).place()
-        #     print('Yes')
-        # except:
-        #     print('asd error')
-
-    #middle frame which needs to be change
-        #
+      
             
         self.create_widgets()
     
@@ -104,6 +97,7 @@ class ChangePassword():
 
         #send to page history
         def history():
+            messagebox
             from history import History
             self.root.destroy()
             self.hist=tk.Tk()
@@ -129,6 +123,7 @@ class ChangePassword():
         self.change_password.place(x=56, y=400)
 
         def logout():
+            messagebox.showinfo("Success", "Logout successfully!")
             self.root.destroy()
             from log import TaxiBookingLogin
             log_out=tk.Tk()

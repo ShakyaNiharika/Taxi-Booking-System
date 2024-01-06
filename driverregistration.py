@@ -136,18 +136,18 @@ class DriverRegistration:
           
             if username and password and Address and Phone_Number and Email_Address and license_No and Gender:
                 if len(password) >= 6:
-                    if len(password) >= 6:
+                    if len(Phone_Number) >= 10:
                         if "@" in Email_Address:
                             self.cursor.execute('''INSERT INTO driver (username, password, Address, Phone_Number, Email_Address, license_No, Gender ,status) VALUES (?, ?, ?, ?,?, ?, ?, ?)''',
                                                 (username, password, Address, Phone_Number, Email_Address, license_No, Gender,status ))
                             self.conn.commit()
-                            messagebox.showinfo("Success", "Record created successfully!")
+                            messagebox.showinfo("Success", "Registered successfully!")
                             # self.clear_entries()
                             sign_in()
                         else:
                             messagebox.showerror("Error", "Please enter the valid email address")
                     else:
-                        messagebox.showerror("Error", "Paaword needs to be atleast 10 digits")
+                        messagebox.showerror("Error", "Phone Number must be 10 digits")
                 else:
                     messagebox.showerror("Error", "Paasword needs to be 6 digits atleast")
     

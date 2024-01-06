@@ -173,7 +173,7 @@ class CustomerDashboard:
                 self.cursor.execute('''INSERT INTO booking (pickup_address, dropoff_address, pickup_date, pickup_time,customer_id,booking_status) VALUES (?, ?, ?, ?,?,?)''',
                                         (pickup_address, dropoff_address, pickup_date, pickup_time,self_id,status))
                 self.conn.commit()
-                messagebox.showinfo("Successfully! Booking has been requested")
+                messagebox.showinfo("Success","Successfully! Booking has been requested")
                 # display_in_treeview(self,pickup_address,dropoff_address,pickup_date,pickup_time) #hereeee
                 read()
                 # clear_entries()
@@ -210,7 +210,7 @@ class CustomerDashboard:
                     self.tree.insert("", "end", values=record)
 
             else:
-                messagebox.showinfo("No Records", "No records found.")
+                messagebox.showinfo("No bookings", "No booking found.")
         
 #to Cancel the booking
         def delete():
