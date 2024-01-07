@@ -59,15 +59,6 @@ class TaxiBookingLogin:
         self.email_entry=tk.Entry(self.root)
         self.email_entry.place(x=520,y=240,height=40, width=340,)
 
-        # self.user_image = Image.open('user.png')
-        # self.resized_userimage= self.user_image.resize((50,70))
-        # self.user_photo = ImageTk.PhotoImage(self.resized_userimage)
-       
-
-        # user_label = tk.Label(self.root, image=self.user_photo,bg="white")
-        # user_label.place(x=800, y=225)
-      
-
         self.password = tk.Label(self.root,text="Password:",font=90,bg="white") 
         self.password.place(x=520,y=300)
 
@@ -81,14 +72,11 @@ class TaxiBookingLogin:
                 self.password_entry.config(show="*")
                 
 
-
         check_button = tk.Checkbutton(self.root,text="show password", command=show_password,bg="white")
         check_button.place(x=745,y=370)
 
-
         def login():
-            
-        
+                    
         #Create Database
             self.conn = sqlite3.connect("crud5.db")
             self.cursor = self.conn.cursor()
@@ -112,18 +100,8 @@ class TaxiBookingLogin:
         button=tk.Button(self.root,text="Log in customer",command=login, bg="#FFA500",font=("Verdana", 10))
         button.place(x=520,y=400,width=340,height=40) 
 
-#BUTTON FOR ADMIN AND DRIVER
-        # button=tk.Button(self.root,text="Log in as driver", bg="white",font=("Verdana", 10),borderwidth=0)
-        # button.place(x=560,y=450,width=120,height=30)
-
-        # button=tk.Button(self.root,text="Log in as admin", bg="white",font=("Verdana", 10),borderwidth=0)
-        # button.place(x=700,y=450,width=120,height=30)
-
         self.forget_password_entry = tk.Label(self.root,text="Forgot Password ?",font=("Verdana", 13),bg="white") 
         self.forget_password_entry.place(x=616,y=460)
-
-        # button=tk.Button(self.root,text="Create Account",bg="#FFA500",font=("Verdana", 10))
-        # button.place(x=500,y=380,width=340,height=35) 
 
         frame2 = tk.Frame(self.root, bg="white", highlightthickness=0)
         frame2.place(x=640,y=510)

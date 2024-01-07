@@ -147,13 +147,13 @@ class AdminLogin:
         frame2.place(x=640,y=510)
 
 
-        def createAccount():
-            self.root.destroy()
-            here = tk.Tk()
-            RegistrationForm(here)
+        # def createAccount():
+        #     self.root.destroy()
+        #     here = tk.Tk()
+        #     RegistrationForm(here)
        
-        button = tk.Button(frame2, text="Create Account",command=createAccount, font=("Verdana", 10),fg="#FFA500",bg="white",borderwidth=0)
-        button.pack(expand=True, fill="both")
+        # button = tk.Button(frame2, text="Create Account",command=createAccount, font=("Verdana", 10),fg="#FFA500",bg="white",borderwidth=0)
+        # button.pack(expand=True, fill="both")
 
 
         frame2.config(bg=root.cget("bg"))

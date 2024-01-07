@@ -148,18 +148,7 @@ class Driverlogin:
 
         self.root.geometry("950x630")
 
-#         # self.result_label = tk.Entry(self.root, text="", font=("bold", 12))
-#         # self.result_label.place(x=180, y=420)
-        
-        #Database connection
-        self.conn = sqlite3.connect("crud1.db")
-        self.cursor = self.conn.cursor()
-    
 
-        
-        
-
-#     #   self.result_label.config(text=f"Username: {username}")
 
 if __name__ == "__main__":
     root = tk.Tk()
