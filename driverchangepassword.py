@@ -103,11 +103,11 @@ class DriverChangePassword:
         self.change_password.place(x=56, y=365)
     
         def logout():
+            messagebox.showinfo("Success", "Logout successfully!")
             self.root.destroy()
             from log import TaxiBookingLogin
             log_out=tk.Tk()
             TaxiBookingLogin(log_out)
-
         self.Logout= tk.Button(self.root, text="Logout",command=logout , font=("Verdana", 14),borderwidth=0,bg="#F1B547")
         self.Logout.place(x=56, y=590)
 

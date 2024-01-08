@@ -64,10 +64,11 @@ class ViewDriver:
         billing.place(x=60, y=340)
 
         def logout():
+            messagebox.showinfo("Success", "Logout successfully!")
             self.root.destroy()
             from log import TaxiBookingLogin
-            logout=tk.Tk()
-            TaxiBookingLogin(logout)
+            log_out=tk.Tk()
+            TaxiBookingLogin(log_out)
 
         self.Logout= tk.Button(self.root, text="Logout", command=logout,  font=("Verdana", 14),borderwidth=0,bg="#F9943B")
         self.Logout.place(x=56, y=590)
