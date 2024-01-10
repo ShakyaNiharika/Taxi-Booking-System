@@ -202,7 +202,7 @@ class CustomerDashboard:
         def read():
             self.tree.delete(*self.tree.get_children())
 
-            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM booking where customer_id = ?''',str(self_id))
+            self.cursor.execute('''SELECT id, pickup_address, dropoff_address, pickup_date, pickup_time FROM booking where customer_id = ?''',(str(self_id),))
             records = self.cursor.fetchall()
 
             if records:
