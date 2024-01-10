@@ -140,20 +140,7 @@ class DriverHistory:
         self.conn = sqlite3.connect("crud5.db")
         self.cursor = self.conn.cursor()
         self.cursor.execute('''SELECT * FROM booking WHERE driverid=?''', (globalvar.driver[0],))
-        # self.cursor.execute('''SELECT 
-        #             customer.username,
-        #             customer.Phone_Number,
-        #             customer.Email_Address,
-        #             booking.pickup_address,
-        #             booking.dropoff_address,
-        #             booking.pickup_date,
-        #             booking.pickup_time
-        #         FROM 
-        #             booking
-        #         JOIN 
-        #             customer
-        #         ON 
-        #             customer.id = booking.customer_id''')
+       
         records = self.cursor.fetchall()
 
         if records:
